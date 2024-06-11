@@ -1,36 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Main Page</title>
-	</head>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		body {
-			margin: 1rem;
-			background-color: antiquewhite;
-			font-family: "Poppins";
-		}
-		.grid {
-			display: grid;
-			gap: 0.25rem;
-			margin-block-start: 1rem;
-		}
-	</style>
-	<body>
-		<h1>Other Pages</h1>
-		<div class="grid">
-			<a href="./page2.html">Page 2</a>
-			<a href="./page 4 & 5/index.html">Page 4</a>
-			<a href="./page 4 & 5/admin.html">Page 5</a>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .webpage {
+            display: flex;
+            flex-grow: 1;
+        }
+        .sidebar {
+            background-color: #006400;
+            width: 250px;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar a, .sidebar div {
+            text-decoration: none;
+            color: inherit;
+            background-color: #008000;
+            margin-bottom: 10px;
+            padding: 15px;
+            cursor: pointer;
+            border: 2px solid #000;
+            text-align: left;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap; /* Ensure text does not wrap */
+        }
+        .sidebar a:hover div, .sidebar div:hover {
+            background-color: #00FF00;
+        }
+        .content {
+            flex-grow: 1;
+            border: 2px solid #000;
+            border-left: none;
+            padding: 20px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">DEALER PAGE</div>
+    <div class="webpage">
+        <div class="sidebar">
+            <a href="#" onclick="loadPage('activate_deactivate_cug.html')"><div>Activate/De-Activate CUG</div></a>
+            <a href="add_new_cug.html"><div>Add New CUG</div></a>
+            <a href="allocation_wise_report.html"><div>Allocation-Wise Report</div></a>
+            <a href="plan_wise_billing_report.html"><div>Plan-Wise Billing Report</div></a>
+        </div>
+        <div class="content" id="content"></div>
+    </div>
+    <script>
+        function loadPage(page) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', page, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('content').innerHTML = xhr.responseText;
+                    // Add event listener for the "Go to Main Page" button
+                    document.getElementById('goToMainPage').onclick = function() {
+                        loadMainPage();
+                    };
+                }
+            };
+            xhr.send();
+        }
+
+        function loadMainPage() {
+            const mainContent = `
+                <h2>Welcome to the Dealer Page</h2>
+                <p>Select an option from the sidebar to get started.</p>
+            `;
+            document.getElementById('content').innerHTML = mainContent;
+        }
+
+        // Load the main page content initially
+        window.onload = function() {
+            loadMainPage();
+        }
+    </script>
+</body>
 </html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUG Details Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative; /* For positioning the "Go to Main Page" button */
+        }
+        .header h1 {
+            font-size: 20px; /* Decreased font size */
+            background-color: black; /* Changed to black */
+            padding: 10px 20px; /* Adjusted padding */
+            color: white;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: 0; /* Added to reset margin */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type='text'], input[type='number'] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px;
+            border: none;
+            color: white;
+            width: 48%;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .activate-btn {
+            background-color: #006400;
+        }
+        .deactivate-btn {
+            background-color: #8B0000;
+        }
+        .go-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 20px; /* Adjusted margin-top */
+            width: 100%; /* Adjusted width */
+            border-radius: 5px;
+        }
+        .main-page-btn {
+            background-color: #006400;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            display: block;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 100%; /* Adjusted width */
+            text-align: center; /* Center align the text */
+            text-decoration: none; /* Remove underline */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CUG DETAILS DATA (Activate/De-activate)</h1>
+        </div>
+        <div class="form-group">
+            <label for="cugNo">CUG NO</label>
+            <input type="text" id="cugNo">
+        </div>
+        <div class="form-group">
+            <label for="name">NAME</label>
+            <input type="text" id="name">
+        </div>
+        <div class="form-group">
+            <label for="designation">DESIGNATION</label>
+            <input type="text" id="designation">
+        </div>
+        <div class="form-group">
+            <label for="division">DIVISION</label>
+            <input type="text" id="division">
+        </div>
+        <div class="form-group">
+            <label for="department">DEPARTMENT</label>
+            <input type="text" id="department">
+        </div>
+        <div class="form-group">
+            <label for="billUnit">BILL UNIT</label>
+            <input type="text" id="billUnit">
+        </div>
+        <div class="form-group">
+            <label for="allocation">ALLOCATION</label>
+            <input type="text" id="allocation">
+        </div>
+        <div class="form-group">
+            <label for="employeeStatus">EMPLOYEE STATUS</label>
+            <input type="text" id="employeeStatus">
+        </div>
+        <div class="form-group">
+            <label for="plan">PLAN</label>
+            <input type="text" id="plan">
+        </div>
+        <div class="button-group">
+            <button class="activate-btn" type="button">ACTIVATE</button>
+            <button class="deactivate-btn" type="button">DEACTIVATE</button>
+        </div>
+        <button class="go-btn">GO</button>
+        <a href="#" id="goToMainPage" class="main-page-btn">Go to Dealer Page</a> <!-- Changed text -->
+    </div>
+</body>
+</html>
