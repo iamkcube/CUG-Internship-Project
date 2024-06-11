@@ -4,4 +4,4 @@ when login in use
 1. login id = admin
 2. passord = 1234
 
-Use this to logon the admin page
+Use this to login the admin page
