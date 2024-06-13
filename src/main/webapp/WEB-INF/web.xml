@@ -9,4 +9,14 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>adminLoginServlet</display-name>
+    <servlet-name>adminLoginServlet</servlet-name>
+    <servlet-class>com.adminLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLoginServlet</servlet-name>
+    <url-pattern>/adminLoginServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

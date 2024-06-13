@@ -14,16 +14,18 @@
 		/>
 	</head>
 	<body>
-		<form class="login">
+		<form action="adminLoginServlet" method="post" class="login">
 			<h2>Welcome, Admin!</h2>
 			<p>Please log in</p>
 			<input
 				type="email"
 				placeholder="Email"
+				name="email"
 			/>
 			<input
 				type="password"
 				placeholder="Password"
+				name="password"
 			/>
 			<input
 				type="submit"
