@@ -19,4 +19,14 @@
     <servlet-name>adminLoginServlet</servlet-name>
     <url-pattern>/adminLoginServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>dealerLoginServlet</display-name>
+    <servlet-name>dealerLoginServlet</servlet-name>
+    <servlet-class>com.dealerLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dealerLoginServlet</servlet-name>
+    <url-pattern>/dealerLoginServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
