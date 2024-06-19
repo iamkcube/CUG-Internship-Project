@@ -1,0 +1,107 @@
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(images/banner6.jpg);
+    background-size: cover;
+}
+
+.from_contener
+{
+    position: relative;
+    width: min(100%, 70vw);
+    margin-inline: auto;
+    display: grid;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 1rem 6rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    transition: background-color 500ms ease-in-out;
+}
+
+h2
+{
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+    color: #fff;
+    padding-left: 8px;
+    border-bottom: 2px solid silver;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
+.content
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.input_box
+{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+.input_box:nth-child(2n)
+{
+    justify-content: end;
+
+}
+
+.input_box label
+{
+    width: 95%;
+    color: white;
+    font-weight: bold;
+    margin: 5xp 0;
+}
+
+.input_box input
+{
+    height: 30px;
+    width: 95%;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.input_box input:is(:focus, :valid)
+{
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.activate_button
+{
+    margin: 15px 0;
+}
+
+.activate_button button
+{
+    width: 100%;
+    margin-top: 10px;
+    padding: 0.5em 1em;
+    display: block;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, var(--accent-color), var(--accent-color-hover), var(--accent-color));
+    background-size: 200%;
+    cursor: pointer;
+    transition: background-position 250ms ease-in-out;
+    background-position: 0% 0%;
+}
+
+.activate_button button:hover
+{
+    background-position: 100% 100%;
+}
