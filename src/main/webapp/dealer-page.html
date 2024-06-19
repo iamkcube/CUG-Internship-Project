@@ -1,123 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>East Coast Railway CUG Dealer Page</title>
-		<link
-			rel="stylesheet"
-			href="base.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="admin-page.css"
-		/>
-	</head>
-	<body>
-		<header>
-			<div class="header-top">
-				<h1>East Coast Railway</h1>
-				<h1>Closed User Group</h1>
-			</div>
-			<!-- <nav>
-            <ul>
-                <li><a href="index.html">Admin Page</a></li>
-            </ul>
-        </nav> -->
-		</header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>East Coast Railway CUG Dealer Page</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="admin-page.css" />
+    <style>
+        /* Add this CSS to your admin-page.css or base.css */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
 
-		<section id="admin-services">
-			<h2>Dealer Services</h2>
-			<div class="services-container">
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <header>
+            <div class="header-top">
+                <h1>East Coast Railway</h1>
+                <h1>Closed User Group</h1>
+            </div>
+            <!-- <nav>
+                <ul>
+                    <li><a href="index.html">Admin Page</a></li>
+                </ul>
+            </nav> -->
+        </header>
+
+        <section id="admin-services">
+            <h2>Dealer Services</h2>
+            <div class="services-container">
                 <div class="service">
-					<a href="add-cug.html">
-						<img
-							src="icons/add_cug1.png"
-							alt="Add New CUG"
-						/>
-						<h3>Add New CUG</h3>
-						<p>Add new CUG numbers to the system.</p>
-					</a>
-				</div>
-				<div class="service">
-					<a href="deactive-cug.html">
-						<img
-							src="icons/de-activate_cug.png"
-							alt="De-Active CUG"
-						/>
-						<h3>De-Active CUG</h3>
-						<p>Deactive a CUG number from the system.</p>
-					</a>
-				</div>
-				
-				<div class="service">
-					<a href="allocation-report.html">
-						<img
-							src="icons/allocation_report.png"
-							alt="Allocation-Wise Report"
-						/>
-						<h3>Allocation-Wise Report</h3>
-						<p>Generate reports based on CUG allocations.</p>
-					</a>
-				</div>
-				<div class="service">
-					<a href="plan-wise-billing.html">
-						<img
-							src="icons/plan-wise_billing.png"
-							alt="Plan-Wise Billing Report"
-						/>
-						<h3>Plan-Wise Billing Report</h3>
-						<p>Generate billing reports based on different service plans .</p>
-					</a>
-				</div>
-			</div>
-		</section>
+                    <a href="add-cug.html">
+                        <img src="icons/add_cug1.png" alt="Add New CUG" />
+                        <h3>Add New CUG</h3>
+                        <p>Add new CUG numbers to the system.</p>
+                    </a>
+                </div>
+                <div class="service">
+                    <a href="deactive-cug.html">
+                        <img src="icons/de-activate_cug.png" alt="De-Active CUG" />
+                        <h3>De-Active CUG</h3>
+                        <p>Deactive a CUG number from the system.</p>
+                    </a>
+                </div>
+                <div class="service">
+                    <a href="allocation-report.html">
+                        <img src="icons/allocation_report.png" alt="Allocation-Wise Report" />
+                        <h3>Allocation-Wise Report</h3>
+                        <p>Generate reports based on CUG allocations.</p>
+                    </a>
+                </div>
+                <div class="service">
+                    <a href="plan-wise-billing.html">
+                        <img src="icons/plan-wise_billing.png" alt="Plan-Wise Billing Report" />
+                        <h3>Plan-Wise Billing Report</h3>
+                        <p>Generate billing reports based on different service plans.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
 
-		<footer>
-			<p>&copy; 2024 East Coast Railway. All rights reserved.</p>
-			<div class="footer-links">
-				<a href="#">Privacy Policy</a>
-				<a href="#">Terms of Service</a>
-			</div>
-		</footer>
-		<script>
-			document.addEventListener("DOMContentLoaded", () => {
-				const card = document.querySelector(".service");
-
-				card.addEventListener("mousemove", (e) => {
-					const rect = card.getBoundingClientRect();
-					const x = e.clientX - rect.left;
-					const y = e.clientY - rect.top;
-					const centerX = rect.width / 2;
-					const centerY = rect.height / 2;
-
-					const shadowX = (x - centerX) / 10;
-					const shadowY = (y - centerY) / 10;
-
-					document.documentElement.style.setProperty(
-						"--card-shadow-x",
-						`${shadowX}rem`
-					);
-					document.documentElement.style.setProperty(
-						"--card-shadow-y",
-						`-${shadowY}rem`
-					);
-				});
-
-				card.addEventListener("mouseleave", () => {
-					document.documentElement.style.setProperty(
-						"--card-shadow-x",
-						"0px"
-					);
-					document.documentElement.style.setProperty(
-						"--card-shadow-y",
-						"0px"
-					);
-				});
-			});
-		</script>
-	</body>
+    <footer>
+        <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+</body>
 </html>
