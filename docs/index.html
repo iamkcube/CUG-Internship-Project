@@ -2,23 +2,12 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
+		<meta name="viewport" 
+			content="width=device-width, initial-scale=1.0" 
 		/>
 		<title>East Coast Railway CUG</title>
-		<link
-			rel="stylesheet"
-			href="base.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="styles.css"
-		/>
-		<script
-			defer
-			src="script.js"
-		></script>
+		<link rel="stylesheet" href="base.css" />
+		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
 		<header>
@@ -30,14 +19,14 @@
 					<li><a href="#contact">Contact</a></li>
 					<li class="dropdown">
 						<a
-							href="javascript:void(0)"
+							href="login-page.html"
 							class="dropbtn"
 							>Login</a
 						>
-						<div class="dropdown-content">
-							<a href="admin-login.html">Admin Login</a>
-							<a href="dealer-login.html">Dealer Login</a>
-						</div>
+						<!-- <div class="dropdown-content">
+							<a href="admin-login.jsp">Admin Login</a>
+							<a href="dealer-login.jsp">Dealer Login</a>
+						</div> -->
 					</li>
 				</ul>
 			</nav>
@@ -48,22 +37,11 @@
 				<p>Welcome to</p>
 				<h1>East Coast Railway Closed User Group</h1>
 				<p>
-					Secure and efficient communication for East Coast Railway
-					personnel.
+					Secure and efficient communication for East Coast Railway personnel.
 				</p>
 				<div class="hero-buttons">
-					<button
-						href="admin-login.html"
-						class="btn admin-btn"
-					>
-						Admin Login
-					</button>
-					<button
-						href="dealer-login.html"
-						class="btn dealer-btn"
-					>
-						Dealer Login
-					</button>
+					<a href="login.html" class="btn">Login</a>
+					<!-- <a href="dealer-login.jsp" class="btn">Dealer Login</a> -->
 				</div>
 			</div>
 		</section>
@@ -232,15 +210,10 @@
 					<textarea
 						id="message"
 						name="message"
-						rows="4"
+                        rows="4"
 						required
 					></textarea>
-					<button
-						class="btn"
-						type="submit"
-					>
-						Submit
-					</button>
+					<button class="btn" type="submit">Submit</button>
 				</form>
 			</div>
 			<div class="map">
