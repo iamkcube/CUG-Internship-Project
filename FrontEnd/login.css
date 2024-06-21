@@ -117,3 +117,13 @@ body
 {
 	text-decoration: underline;
 }
+
+.back-home
+{
+	font-size: 1rem;
+}
+
+.back-home:hover
+{
+	color: var(--accent-color);
+}
