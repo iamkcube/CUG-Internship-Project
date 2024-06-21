@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: white;
+}
+
+.header {
+    width: 100%;
+    background-color: rgba(242, 245, 242, 0.7);
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    color: rgb(13, 129, 230);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.main-content {
+    margin-top: 100px;
+    width: 90%;
+    max-width: 1200px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cug-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.plan-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.plan-options {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.plan-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.plan-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.plan-card p {
+    margin: 5px 0;
+}
+body {
+    background-image: url("railway-image.jpg");
+  }
+
+.select-plan {
+    background-color: #3F51B5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.select-plan:hover {
+    background-color: #303F9F;
+}
+
+.activate-button {
+    background-color: #3F51B5;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.activate-button:hover {
+    background-color: #303F9F;
+}
