@@ -12,7 +12,7 @@ main
     margin: 4rem;
 }
 
-.from_contener
+.form_container
 {
     position: relative;
     width: 70vw;
@@ -27,7 +27,7 @@ main
     transition: background-color 500ms ease-in-out;
 }
 
-.from_contener>section,
+.form_container>section,
 .long-input
 {
     grid-column: 1/3;
