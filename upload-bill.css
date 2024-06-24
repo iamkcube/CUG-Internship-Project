@@ -20,7 +20,7 @@
 
 main
 {
-    background-image: url(images/banner.jpg);
+    background-image: url(images/upload-bill.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 90svh;
@@ -40,6 +40,7 @@ main
     margin-bottom: 1em;
     text-align: center;
     text-transform: uppercase;
+	text-shadow: 0 0 20px black;
 }
 
 .form_container
