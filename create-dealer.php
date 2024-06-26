@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Kolkata');
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cug";
+$dbname = "raildb";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

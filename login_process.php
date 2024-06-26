@@ -5,7 +5,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cug";
+$dbname = "raildb";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
