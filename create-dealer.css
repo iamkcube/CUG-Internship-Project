@@ -46,8 +46,13 @@ main
 {
     text-align: center;
     color: var(--white);
+    font-weight: bold;
     margin-block: 1rem;
-    text-shadow: 0 0 4px black;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color);
+    width: max-content;
+    margin-inline: auto;
+    border-radius: 4px;
 }
 
 .form_container
