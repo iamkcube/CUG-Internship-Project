@@ -111,6 +111,40 @@ select
 	margin-block: 2rem;
 }
 
+.heading-container
+{
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 2.5rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-block-start: 3rem;
+    padding-inline: 3rem;
+}
+
+.back-btn
+{
+    padding: 0.5rem;
+    width: 2.5rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    background-color: var(--white);
+    aspect-ratio: 1;
+}
+
+
+.heading
+{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: left;
+    color: var(--white);
+    text-align: center;
+    justify-self: center;
+	text-shadow: 0 0 10px var(--black);
+}
+
 .session-message
 {
     text-align: center;

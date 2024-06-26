@@ -16,8 +16,12 @@
             <h1>Closed User Group</h1>
         </div>
     </header>
+    <div class="heading-container">
+        <button class="back-btn" onclick="window.location.href = './dealer-page.html'"><img
+                src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
+        <h2 class="heading">Deactivate CUG</h2>
+    </div>
     <main class="main-content">
-
 
         <form class="cug-form" method="POST" action="deactivate-cug.php">
             <div class="form-group">

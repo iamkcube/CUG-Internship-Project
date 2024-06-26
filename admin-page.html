@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ECoR CUG Admin Page</title>
-        <link rel="stylesheet" href="base.css" />
-        <link rel="stylesheet" href="admin-page.css" />
-    </head>
-    <body>
-        <header>
-            <div class="header-top">
-                <h1>East Coast Railway</h1>
-                <h1>Closed User Group</h1>
-            </div>
-            <!-- <nav>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>ECoR CUG Admin Page</title>
+		<link
+			rel="stylesheet"
+			href="base.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="admin-page.css"
+		/>
+	</head>
+	<body>
+		<header>
+			<div class="header-top">
+				<h1>East Coast Railway</h1>
+				<h1>Closed User Group</h1>
+			</div>
+			<!-- <nav>
             <ul>
                 <li><a href="index.html">Admin Page</a></li>
             </ul>
         </nav> -->
-        </header>
+		</header>
 
 		<section id="admin-services">
 			<h2>Admin Services</h2>
@@ -121,48 +130,48 @@
 			</div>
 		</section>
 
-        <footer>
-            <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-        </footer>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const card = document.querySelector(".service");
+		<footer>
+			<p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+			<div class="footer-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms of Service</a>
+			</div>
+		</footer>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const card = document.querySelector(".service");
 
-                card.addEventListener("mousemove", (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
+				card.addEventListener("mousemove", (e) => {
+					const rect = card.getBoundingClientRect();
+					const x = e.clientX - rect.left;
+					const y = e.clientY - rect.top;
+					const centerX = rect.width / 2;
+					const centerY = rect.height / 2;
 
-                    const shadowX = (x - centerX) / 10;
-                    const shadowY = (y - centerY) / 10;
+					const shadowX = (x - centerX) / 10;
+					const shadowY = (y - centerY) / 10;
 
-                    document.documentElement.style.setProperty(
-                        "--card-shadow-x",
-                        `${shadowX}rem`
-                    );
-                    document.documentElement.style.setProperty(
-                        "--card-shadow-y",
-                        `-${shadowY}rem`
-                    );
-                });
+					document.documentElement.style.setProperty(
+						"--card-shadow-x",
+						`${shadowX}rem`
+					);
+					document.documentElement.style.setProperty(
+						"--card-shadow-y",
+						`-${shadowY}rem`
+					);
+				});
 
-                card.addEventListener("mouseleave", () => {
-                    document.documentElement.style.setProperty(
-                        "--card-shadow-x",
-                        "0px"
-                    );
-                    document.documentElement.style.setProperty(
-                        "--card-shadow-y",
-                        "0px"
-                    );
-                });
-            });
-        </script>
-    </body>
+				card.addEventListener("mouseleave", () => {
+					document.documentElement.style.setProperty(
+						"--card-shadow-x",
+						"0px"
+					);
+					document.documentElement.style.setProperty(
+						"--card-shadow-y",
+						"0px"
+					);
+				});
+			});
+		</script>
+	</body>
 </html>
