@@ -34,7 +34,7 @@
 				<h2>Upload CUG Bill</h2>
 				<form
 					class="form_container"
-					action="#"
+					action="upload-bill.php"
 					method="post"
 				>
 					<div class="input_box long-input">
