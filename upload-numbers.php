@@ -40,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-$conn->close();
 ?>
 
 
@@ -70,6 +69,12 @@ $conn->close();
 						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
 				<h2 class="heading">Upload CUG Numbers</h2>
 			</div>
+			<?php
+            if (isset($_SESSION['message'])) {
+                echo "<p class='session-message'>" . $_SESSION['message'] . "</p>";
+                unset($_SESSION['message']);
+            }
+            ?>
 			<form class="form_container" action="#" method="post">
 				<div class="input_box">
 					<label for="cugno">CUG NO</label>
