@@ -19,7 +19,7 @@
 	<main>
 		<section id="cug-details">
 			<div class="heading-container">
-				<button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
+				<button class="back-btn" onclick="window.location.href = 'admin-page.html'"><img
 						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
 				<h2 class="heading">CUG Details</h2>
 			</div>
@@ -30,8 +30,9 @@
 						<th>Employee Number</th>
 						<th>Employee Name</th>
 						<th>Designation</th>
+						<th>Unit</th>
 						<th>Department</th>
-						<th>Bill Unit</th>
+						<th>Bill Unit No</th>
 						<th>Allocation</th>
 						<th>Operator</th>
 						<th>Plan</th>
@@ -42,17 +43,9 @@
 				</thead>
 				<tbody>
 					<?php
-					// Database connection
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname = "raildb";
 
-					$conn = new mysqli($servername, $username, $password, $dbname);
-
-					if ($conn->connect_error) {
-						die("Connection failed: " . $conn->connect_error);
-					}
+					// Include database connection script
+					include 'db_connect.php';
 
 					$sql = "SELECT * FROM CUGDetails";
 					$result = $conn->query($sql);
@@ -64,8 +57,9 @@
 							echo "<td>" . $row["emp_number"] . "</td>";
 							echo "<td>" . $row["empname"] . "</td>";
 							echo "<td>" . $row["designation"] . "</td>";
+							echo "<td>" . $row["unit"] . "</td>";
 							echo "<td>" . $row["department"] . "</td>";
-							echo "<td>" . $row["bill_unit"] . "</td>";
+							echo "<td>" . $row["bill_unit_no"] . "</td>";
 							echo "<td>" . $row["allocation"] . "</td>";
 							echo "<td>" . $row["operator"] . "</td>";
 							echo "<td>" . $row["plan"] . "</td>";

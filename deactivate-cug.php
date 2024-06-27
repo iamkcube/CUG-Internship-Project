@@ -32,19 +32,15 @@
         </form>
     </main>
     <?php
-    // Database connection
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "raildb";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Include database connection script
+    include 'db_connect.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['deactivate'])) {
             $cug_no = $_POST['cugNo'];
 
-            $update_sql = "UPDATE cugdetails SET status = 'Inactive' WHERE cug_number = ?";
+            $update_sql = "UPDATE CUGDetails SET status = 'Inactive' WHERE cug_number = ?";
             $stmt = $conn->prepare($update_sql);
             $stmt->bind_param("s", $cug_no);
 
@@ -58,7 +54,7 @@
         } else {
             $cug_no = $_POST['cugNo'];
 
-            $sql = "SELECT * FROM cugdetails WHERE cug_number = ?";
+            $sql = "SELECT * FROM CUGDetails WHERE cug_number = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $cug_no);
             $stmt->execute();
@@ -79,8 +75,9 @@
                                     <th>Employee Number</th>
                                     <th>Employee Name</th>
                                     <th>Designation</th>
+                                    <th>Unit</th>
                                     <th>Department</th>
-                                    <th>Bill Unit</th>
+                                    <th>Bill Unit No</th>
                                     <th>Allocation</th>
                                     <th>Operator</th>
                                     <th>Plan</th>
@@ -95,8 +92,9 @@
                 echo "<td>" . $row["emp_number"] . "</td>";
                 echo "<td>" . $row["empname"] . "</td>";
                 echo "<td>" . $row["designation"] . "</td>";
+                echo "<td>" . $row["unit"] . "</td>";
                 echo "<td>" . $row["department"] . "</td>";
-                echo "<td>" . $row["bill_unit"] . "</td>";
+                echo "<td>" . $row["bill_unit_no"] . "</td>";
                 echo "<td>" . $row["allocation"] . "</td>";
                 echo "<td>" . $row["operator"] . "</td>";
                 echo "<td>" . $row["plan"] . "</td>";
