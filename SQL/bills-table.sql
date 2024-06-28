@@ -1,6 +1,6 @@
 -- Table Creation
 
-CREATE TABLE Bills (
+CREATE TABLE bills (
     bill_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     cug_id INT NOT NULL,
     periodic_charge DECIMAL(10, 2) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE Bills (
 
 -- Insert Data
 
-INSERT INTO Bills (cug_id, periodic_charge, usage_amount, data_amount, voice, video, sms, vas)
+INSERT INTO bills (cug_id, periodic_charge, usage_amount, data_amount, voice, video, sms, vas)
 SELECT c.cug_id, 550.00, 250.00, 120.00, 60.00, 35.00, 25.00, 15.00
 FROM CUGDetails c
 WHERE c.cug_number = 10147857981 AND c.status = 'Active';

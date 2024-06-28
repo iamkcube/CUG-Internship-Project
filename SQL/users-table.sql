@@ -1,6 +1,6 @@
 -- Table Creation
 
-CREATE TABLE Users (
+CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -13,7 +13,7 @@ CREATE TABLE Users (
 
 -- Insert Data
 
-INSERT INTO Users (username, email, password, contact, address, created_at, role) VALUES 
+INSERT INTO users (username, email, password, contact, address, created_at, role) VALUES 
 ('admin1', 'admin1@gmail.com', SHA2('pass001', 256), '8260529733', 'Bhubaneswar', CURRENT_TIMESTAMP, 'admin'),
 ('admin2', 'admin2@gmail.com', SHA2('pass002', 256), '9437562924', 'Ghatika', CURRENT_TIMESTAMP, 'admin'),
 ('dealer1', 'dealer1@gmail.com', SHA2('pass01', 256), '6371929991', 'Kenjhor', CURRENT_TIMESTAMP, 'dealer'),

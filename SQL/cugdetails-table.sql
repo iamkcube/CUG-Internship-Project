@@ -1,6 +1,6 @@
 -- Table Creation
 
-CREATE TABLE CUGDetails (
+CREATE TABLE cugdetails (
     cug_id INT AUTO_INCREMENT PRIMARY KEY,
     cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) <= 11),
     emp_number BIGINT UNIQUE NOT NULL CHECK (CHAR_LENGTH(emp_number) = 12),
@@ -19,7 +19,7 @@ CREATE TABLE CUGDetails (
 
 -- Insert Data
 
-INSERT INTO CUGDetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status)
+INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status)
 VALUES
 (10147857981, 365166527088, 'DALLAP KUMDR SDMDL', 'AA', 'CON', 'S & T', '3106854', 873106, 'JIO', 'C', 'Active'),
 (10147857211, 365166583134, 'DRUN KUMDR DDS', 'AA', 'CON', 'ENGG', '06771', 873106, 'JIO', 'C', 'Active'),
