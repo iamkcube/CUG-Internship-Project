@@ -143,7 +143,7 @@ $conn->close();
     <main id="main">
         <div class="heading-container">
             <button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
-                    src="https://img.icons8.com/ios/32/long-arrow-left.webp" alt="back button"></button>
+                    src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
             <h2 class="heading">Allotment Of New Cug</h2>
         </div>
         <?php if (isset($_SESSION['errors'])): ?>
