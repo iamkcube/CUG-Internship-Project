@@ -20,7 +20,7 @@
 		<section id="cug-details">
 			<div class="heading-container">
 				<button class="back-btn" onclick="window.location.href = 'admin-page.html'"><img
-						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
+						src="https://img.icons8.com/ios/32/long-arrow-left.webp" alt="back button"></button>
 				<h2 class="heading">CUG Details</h2>
 			</div>
 			<table>
