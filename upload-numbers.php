@@ -17,8 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$sms = $_POST['sms'];
 	$vas = $_POST['vas'];
 
-	$stmt = $conn->prepare("INSERT INTO bills (cug_id, periodic_charge, usage_amount, data_amount, voice, video, sms, vas, bill_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-	$stmt->bind_param("iddddddd", $cug_no, $periodic_charge, $usage_amount, $data_amount, $voice, $video, $sms, $vas);
+	$stmt = $conn->prepare("INSERT INTO Bills (cug_id, periodic_charge, usage_amount, data_amount, voice, video, sms, vas)
+	SELECT c.cug_id, ?, ?, ?, ?, ?, ?, ?
+	FROM CUGDetails c
+	WHERE c.cug_number = ? AND c.status = 'Active'");
+	$stmt->bind_param("dddddddi", $periodic_charge, $usage_amount, $data_amount, $voice, $video, $sms, $vas, $cug_no);
 
 	if ($stmt->execute()) {
 		unset($_SESSION['message']);

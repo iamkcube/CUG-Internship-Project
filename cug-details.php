@@ -57,15 +57,19 @@
 							echo "<td>" . $row["emp_number"] . "</td>";
 							echo "<td>" . $row["empname"] . "</td>";
 							echo "<td>" . $row["designation"] . "</td>";
-							echo "<td>" . $row["unit"] . "</td>";
+							echo "<td>" . (isset($row["unit"]) ? $row["unit"] : 'N/A') . "</td>";
 							echo "<td>" . $row["department"] . "</td>";
-							echo "<td>" . $row["bill_unit_no"] . "</td>";
+							echo "<td>" . (isset($row["bill_unit_no"]) ? $row["bill_unit_no"] : 'N/A') . "</td>";
 							echo "<td>" . $row["allocation"] . "</td>";
 							echo "<td>" . $row["operator"] . "</td>";
 							echo "<td>" . $row["plan"] . "</td>";
 							echo "<td>" . $row["status"] . "</td>";
-							echo "<td>" . $row["created_at"] . "</td>";
-							echo "<td>" . $row["updated_at"] . "</td>";
+
+							$created_at = new DateTime($row["created_at"]);
+							$updated_at = new DateTime($row["updated_at"]);
+
+							echo "<td>" . $created_at->format('g:i A \o\n jS M, y') . "</td>";
+							echo "<td>" . $updated_at->format('g:i A \o\n jS M, y') . "</td>";
 							echo "</tr>";
 						}
 					} else {
