@@ -39,7 +39,7 @@ CREATE TABLE bills (
     sms DECIMAL(10, 2) NOT NULL,
     vas DECIMAL(10, 2) NOT NULL,
     bill_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cug_id) REFERENCES CUGDetails(cug_id)
+    FOREIGN KEY (cug_id) REFERENCES cugdetails(cug_id)
 );
 
 
