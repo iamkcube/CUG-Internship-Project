@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
     if (empty($name))
         $errors[] = "Name is required.";
-    if (empty($cug_no) || strlen($cug_no) >= 11 || !is_numeric($cug_no))
+    if (empty($cug_no) || strlen($cug_no) > 11 || !is_numeric($cug_no))
         $errors[] = "CUG No must be less than 11 digits.";
     if (empty($emp_no) || strlen($emp_no) != 12 || !is_numeric($emp_no))
         $errors[] = "Employee No must be a 12-digit number.";
