@@ -139,3 +139,9 @@ select
 {
     background-position: 100% 100%;
 }
+
+.selected-option
+{
+    outline: 4px solid var(--accent-color);
+    background-color: color-mix(in lab, var(--accent-color-hover) 20%, white) !important;
+}
