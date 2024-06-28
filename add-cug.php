@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
     if (empty($name))
         $errors[] = "Name is required.";
-    if (empty($cug_no) || strlen($cug_no) != 11 || !is_numeric($cug_no))
-        $errors[] = "CUG No must be an 11-digit number.";
+    if (empty($cug_no) || strlen($cug_no) >= 11 || !is_numeric($cug_no))
+        $errors[] = "CUG No must be less than 11 digits.";
     if (empty($emp_no) || strlen($emp_no) != 12 || !is_numeric($emp_no))
         $errors[] = "Employee No must be a 12-digit number.";
     if (empty($designation))
@@ -183,32 +183,32 @@ $conn->close();
                 <label for="unit">Unit</label>
                 <select class="py-2 px-2" id="unit" name="UNIT">
                     <option value="default">Select an Option</option>
-                    <option value="con">CON</option>
-                    <option value="hq">HQ</option>
-                    <option value="mcs">MCS</option>
+                    <option value="CON">CON</option>
+                    <option value="HQ">HQ</option>
+                    <option value="MCS">MCS</option>
                 </select>
             </div>
             <div class="input_box">
                 <label for="department">Department</label>
                 <select class="py-2 px-2" id="department" name="DEPARTMENT">
                     <option value="default">Select an Option</option>
-                    <option value="s&t">S&T</option>
-                    <option value="engg">ENGG</option>
-                    <option value="accts">ACCTS</option>
-                    <option value="elect">ELECT</option>
-                    <option value="optg">OPTG</option>
-                    <option value="pers">PERS</option>
-                    <option value="security">SECURITY</option>
-                    <option value="audit">AUDIT</option>
-                    <option value="med">MED</option>
-                    <option value="comm">COMM</option>
-                    <option value="ga">GA</option>
-                    <option value="mech">MECH</option>
-                    <option value="safety">SAFETY</option>
-                    <option value="stores">STORES</option>
-                    <option value="rrc">RRC</option>
-                    <option value="wagon">WAGON</option>
-                    <option value="welfare">WELFARE</option>
+                    <option value="S&T">S&T</option>
+                    <option value="ENGG">ENGG</option>
+                    <option value="ACCTS">ACCTS</option>
+                    <option value="ELECT">ELECT</option>
+                    <option value="OPTG">OPTG</option>
+                    <option value="PERS">PERS</option>
+                    <option value="SECURITY">SECURITY</option>
+                    <option value="AUDIT">AUDIT</option>
+                    <option value="MED">MED</option>
+                    <option value="COMM">COMM</option>
+                    <option value="GA">GA</option>
+                    <option value="MECH">MECH</option>
+                    <option value="SAFETY">SAFETY</option>
+                    <option value="STORES">STORES</option>
+                    <option value="RRC">RRC</option>
+                    <option value="WAGON">WAGON</option>
+                    <option value="WELFARE">WELFARE</option>
                 </select>
             </div>
             <div class="input_box">
@@ -224,15 +224,15 @@ $conn->close();
                 <label for="operator">Operator</label>
                 <select class="py-2 px-2" id="operator" name="OPERATOR">
                     <option value="default">Select an Option</option>
-                    <option value="jio">Jio</option>
-                    <option value="airtel">Airtel</option>
-                    <option value="vi">VI</option>
-                    <option value="bsnl">BSNL</option>
+                    <option value="JIO">Jio</option>
+                    <option value="AIRTEL">Airtel</option>
+                    <option value="VI">VI</option>
+                    <option value="BSNL">BSNL</option>
                 </select>
             </div>
             <div class="input_box">
-                <label for="plan">Plan:</label>
-                <input class="py-2 px-3" type="text" id="selectedPlan" name="PLAN" readonly required />
+                <!-- <label for="plan">Plan:</label> -->
+                <input class="py-2 px-3" type="hidden" id="selectedPlan" name="PLAN" readonly required />
             </div>
             <section>
                 <div class="py-4 px-4 mx-auto max-w-screen-xl lg:px-6">
