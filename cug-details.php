@@ -47,7 +47,7 @@
 					// Include database connection script
 					include 'db_connect.php';
 
-					$sql = "SELECT * FROM CUGDetails";
+					$sql = "SELECT * FROM cugdetails";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['message'] = "All fields are required and must be valid numbers.";
 	} else {
 		// Prepare statement to retrieve cug_id based on cug_number
-		$stmt_cug = $conn->prepare("SELECT cug_id FROM CUGDetails WHERE cug_number = ? AND status = 'Active'");
+		$stmt_cug = $conn->prepare("SELECT cug_id FROM cugdetails WHERE cug_number = ? AND status = 'Active'");
 		$stmt_cug->bind_param("i", $cug_no);
 		$stmt_cug->execute();
 		$stmt_cug->bind_result($cug_id);
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$stmt_cug->close();
 
-			// Prepare and bind the INSERT statement for Bills table
+			// Prepare and bind the INSERT statement for bills table
 			$stmt_insert = $conn->prepare("INSERT INTO bills (cug_id, periodic_charge, usage_amount, data_amount, voice, video, sms, vas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			$stmt_insert->bind_param("iddddddd", $cug_id, $periodic_charge, $usage_amount, $data_amount, $voice, $video, $sms, $vas);
 
