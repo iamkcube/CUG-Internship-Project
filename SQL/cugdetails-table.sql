@@ -2,7 +2,7 @@
 
 CREATE TABLE cugdetails (
     cug_id INT AUTO_INCREMENT PRIMARY KEY,
-    cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) <= 11),
+    cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) IN (10, 11)),
     emp_number BIGINT UNIQUE NOT NULL CHECK (CHAR_LENGTH(emp_number) = 12),
     empname VARCHAR(100) NOT NULL,
     designation VARCHAR(100) NOT NULL,
