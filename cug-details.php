@@ -57,9 +57,9 @@
 							echo "<td>" . $row["emp_number"] . "</td>";
 							echo "<td>" . $row["empname"] . "</td>";
 							echo "<td>" . $row["designation"] . "</td>";
-							echo "<td>" . (isset($row["unit"]) ? $row["unit"] : 'N/A') . "</td>";
+							echo "<td>" . $row["unit"] . "</td>";
 							echo "<td>" . $row["department"] . "</td>";
-							echo "<td>" . (isset($row["bill_unit_no"]) ? $row["bill_unit_no"] : 'N/A') . "</td>";
+							echo "<td>" . $row["bill_unit_no"] . "</td>";
 							echo "<td>" . $row["allocation"] . "</td>";
 							echo "<td>" . $row["operator"] . "</td>";
 							echo "<td>" . $row["plan"] . "</td>";
