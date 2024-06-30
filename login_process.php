@@ -22,6 +22,7 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     // Set session variable
     $_SESSION['email'] = $user['email'];
+    $_SESSION['role'] = $user['role'];
 
     // Redirect based on role
     if ($user['role'] == 'admin') {
