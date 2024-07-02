@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deactivation of CUG Number</title>
+    <link rel="icon" type="image/webp" href="logo.webp" />
     <link rel="stylesheet" href="base.css">
     <link rel="stylesheet" href="deactivate-cug.css">
 </head>
@@ -17,8 +18,8 @@
         </div>
     </header>
     <div class="heading-container">
-        <button class="back-btn" onclick="window.location.href = './dealer-page.html'"><img
-                src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
+        <button class="back-btn" onclick="window.location.href = './dealer-page.html'"><img src="icon/back-button.webp"
+                alt="back button"></button>
         <h2 class="heading">Deactivate CUG</h2>
     </div>
     <main class="main-content">

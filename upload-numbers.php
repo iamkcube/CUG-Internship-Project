@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Upload CUG Numbers</title>
+	<link rel="icon" type="image/webp" href="logo.webp" />
 	<link rel="stylesheet" href="base.css" />
 	<link rel="stylesheet" href="upload-numbers.css" />
 </head>
@@ -78,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<section id="create-dealer">
 			<div class="heading-container">
 				<button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
-						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
+						src="icon/back-button.webp" alt="back button"></button>
 				<h2 class="heading">Upload CUG Numbers</h2>
 			</div>
 			<?php

@@ -79,6 +79,7 @@ $conn->close();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add CUG</title>
+    <link rel="icon" type="image/webp" href="logo.webp" />
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="add-cug.css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -150,7 +151,7 @@ $conn->close();
     <main id="main">
         <div class="heading-container">
             <button class="back-btn" id="roleRedirectButton" data-role="<?php echo $role; ?>">
-                <img src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button">
+                <img src="icon/back-button.webp" alt="back button">
             </button>
             <h2 class="heading">Allotment Of New Cug</h2>
         </div>

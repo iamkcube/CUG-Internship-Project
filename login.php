@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
+    <link rel="icon" type="image/webp" href="logo.webp" />
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="login.css" />
 </head>
+
 <body>
     <form action="login_process.php" method="post" class="login">
         <a href="./" class="back-home">Back to Home Page</a>
@@ -25,4 +28,5 @@
         ?>
     </form>
 </body>
+
 </html>
