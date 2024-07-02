@@ -12,9 +12,11 @@
 
 <body>
 	<header>
-		<div class="header-top">
-			<h1>East Coast Railway</h1>
-			<h1>Closed User Group</h1>
+	<div class="header-top">
+			<a href="./">
+				<h1>East Coast Railway</h1>
+				<h1>Closed User Group</h1>
+			</a>
 		</div>
 	</header>
 	<main>

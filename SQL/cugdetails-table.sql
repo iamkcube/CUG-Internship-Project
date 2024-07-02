@@ -9,7 +9,7 @@ CREATE TABLE cugdetails (
     unit VARCHAR(50) NOT NULL,
     department VARCHAR(100) NOT NULL,
     bill_unit_no VARCHAR(50) NOT NULL,
-    allocation DECIMAL(10, 2) NOT NULL CHECK (allocation >= 0),
+    allocation DECIMAL(10) NOT NULL CHECK (allocation >= 0),
     operator VARCHAR(50) NOT NULL,
     plan ENUM('A', 'B', 'C') NOT NULL,
     status ENUM('Active', 'Inactive') NOT NULL,
