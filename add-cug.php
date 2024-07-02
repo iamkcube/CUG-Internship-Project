@@ -148,6 +148,14 @@ $conn->close();
 </head>
 
 <body>
+    <header>
+        <div class="header-top">
+            <a href="./">
+                <h1>East Coast Railway</h1>
+                <h1>Closed User Group</h1>
+            </a>
+        </div>
+    </header>
     <main id="main">
         <div class="heading-container">
             <button class="back-btn" id="roleRedirectButton" data-role="<?php echo $role; ?>">
