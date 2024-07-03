@@ -92,10 +92,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $allocation = $rowData[0][7];
                                 $operator = $rowData[0][8];
                                 $plan = $rowData[0][9];
-                                $status = $rowData[0][10];
+                                $status = '$rowData[0][10]';
 
                                 // Prepare the SQL statement
-                                $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) 
+                                $sql = "INSERT INTO cugdetails2 (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) 
                                         VALUES ('$cug_number', '$emp_number', '$empname', '$designation', '$unit', '$department', '$bill_unit_no', '$allocation', '$operator', '$plan', '$status')";
 
                                 // Attempt to execute the SQL statement
