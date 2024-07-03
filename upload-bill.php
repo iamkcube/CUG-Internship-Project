@@ -95,8 +95,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $status = '$rowData[0][10]';
 
                                 // Prepare the SQL statement
-                                $sql = "INSERT INTO cugdetails2 (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) 
-                                        VALUES ('$cug_number', '$emp_number', '$empname', '$designation', '$unit', '$department', '$bill_unit_no', '$allocation', '$operator', '$plan', '$status')";
+                                $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) 
+                                        VALUES ('$cug_number', '$emp_number', '$empname', '$designation', '$unit', '$department', '$bill_unit_no', '$allocation', '$operator', '$plan','Active')";
 
                                 // Attempt to execute the SQL statement
                                 try {
