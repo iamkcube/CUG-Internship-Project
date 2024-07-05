@@ -1,8 +1,7 @@
 -- Table Creation
 
 CREATE TABLE cugdetails (
-    cug_id INT AUTO_INCREMENT PRIMARY KEY,
-    cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) IN (10, 11)),
+    cug_number BIGINT PRIMARY KEY CHECK (CHAR_LENGTH(cug_number) = 10),
     emp_number BIGINT UNIQUE NOT NULL CHECK (CHAR_LENGTH(emp_number) = 12),
     empname VARCHAR(100) NOT NULL,
     designation VARCHAR(100) NOT NULL,
@@ -12,10 +11,9 @@ CREATE TABLE cugdetails (
     allocation DECIMAL(10) NOT NULL CHECK (allocation >= 0),
     operator VARCHAR(50) NOT NULL,
     plan ENUM('A', 'B', 'C') NOT NULL,
-    status ENUM('Active', 'Inactive') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    status ENUM('Active', 'Inactive') NOT NULL
 );
+
 
 -- Insert Data
 
