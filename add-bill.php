@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Upload CUG Numbers</title>
 	<link rel="stylesheet" href="base.css" />
-	<link rel="stylesheet" href="upload-numbers.css" />
+	<link rel="stylesheet" href="add-bill.css" />
 </head>
 
 <body>
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<div class="heading-container">
 				<button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
 						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
-				<h2 class="heading">Upload CUG Numbers</h2>
+				<h2 class="heading">Add New Bill</h2>
 			</div>
 			<?php
 			if (isset($_SESSION['message'])) {
