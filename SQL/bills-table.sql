@@ -2,7 +2,7 @@
 
 CREATE TABLE bills (
     bill_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    cug_id INT NOT NULL,
+    cug_number BIGINT NOT NULL,
     periodic_charge DECIMAL(10, 2) NOT NULL,
     usage_amount DECIMAL(10, 2) NOT NULL,
     data_amount DECIMAL(10, 2) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE bills (
     sms DECIMAL(10, 2) NOT NULL,
     vas DECIMAL(10, 2) NOT NULL,
     bill_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cug_id) REFERENCES cugdetails(cug_id)
+    FOREIGN KEY (cug_number) REFERENCES cugdetails(cug_number)
 );
 
 -- Insert Data
