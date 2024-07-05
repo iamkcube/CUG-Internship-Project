@@ -2,7 +2,7 @@
 
 CREATE TABLE bills (
     bill_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    cug_number BIGINT NOT NULL,
+    cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) IN (10, 11)),
     periodic_charge DECIMAL(10, 2) NOT NULL,
     usage_amount DECIMAL(10, 2) NOT NULL,
     data_amount DECIMAL(10, 2) NOT NULL,
@@ -10,9 +10,11 @@ CREATE TABLE bills (
     video DECIMAL(10, 2) NOT NULL,
     sms DECIMAL(10, 2) NOT NULL,
     vas DECIMAL(10, 2) NOT NULL,
-    bill_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    bill_month INT NOT NULL,
+    bill_year INT NOT NULL,
     FOREIGN KEY (cug_number) REFERENCES cugdetails(cug_number)
 );
+
 
 -- Insert Data
 
