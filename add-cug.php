@@ -181,12 +181,12 @@ $conn->close();
 
         <form class="form_container" action="add-cug.php" method="post">
             <div class="input_box long-input">
-                <label for="name">Name</label>
-                <input class="py-2 px-3" type="text" placeholder="Enter Name" name="NAME" required />
-            </div>
-            <div class="input_box">
                 <label for="cugno">CUG No</label>
                 <input class="py-2 px-3" type="number" placeholder="Enter CUG no." name="CUG_NO" required />
+            </div>
+            <div class="input_box ">
+                <label for="name">Name</label>
+                <input class="py-2 px-3" type="text" placeholder="Enter Name" name="NAME" required />
             </div>
             <div class="input_box">
                 <label for="empno">Employee No.</label>
