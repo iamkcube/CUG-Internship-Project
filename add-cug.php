@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($cug_no)) {
         $errors[] = "CUG No is required.";
     } elseif (!is_numeric($cug_no) || (strlen($cug_no) != 10 && strlen($cug_no) != 11) || $cug_no <= 0) {
-        $errors[] = "CUG No must be a positive numeric value and either 10 or 11 digits long.";
+        $errors[] = "CUG No must be a positive numeric value and 10 digits long.";
     }
     if (empty($emp_no)) {
         $errors[] = "Employee No is required.";
