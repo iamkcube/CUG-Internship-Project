@@ -48,9 +48,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
             </form>
 
             <?php
-            // Include database connection file
-            include 'db_connect.php';
-
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($_FILES['cugno']) && $_FILES['cugno']['error'] === UPLOAD_ERR_OK) {
                     // Retrieve file information
@@ -93,30 +90,48 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $allocation = $rowData[0][7];
                                 $operator = $rowData[0][8];
                                 $plan = $rowData[0][9];
-                                $status = '$rowData[0][10]';
+                                $status = $rowData[0][10];
 
-                                // Prepare the SQL statement
-                                $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) 
-                                                                    VALUES ('$cug_number', '$emp_number', '$empname', '$designation', '$unit', '$department', '$bill_unit_no', '$allocation', '$operator', '$plan','Active')";
+                                // Skip the row if CUG number is null
+                                if (empty($cug_number)) {
+                                    continue;
+                                }
+
+                                // Check if the CUG number already exists
+                                $checkSql = "SELECT COUNT(*) AS count FROM cugdetails WHERE cug_number = ?";
+                                $stmt = $conn->prepare($checkSql);
+                                $stmt->bind_param("s", $cug_number);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $countRow = $result->fetch_assoc();
+
+                                if ($countRow['count'] > 0) {
+                                    // Update the existing record
+                                    $sql = "UPDATE cugdetails SET emp_number = ?, empname = ?, designation = ?, unit = ?, department = ?, bill_unit_no = ?, allocation = ?, operator = ?, plan = ?, status = 'Active' WHERE cug_number = ?";
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bind_param("ssssssssss", $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $cug_number);
+                                } else {
+                                    // Insert a new record
+                                    $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active')";
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bind_param("ssssssssss", $cug_number, $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan);
+                                }
 
                                 // Attempt to execute the SQL statement
                                 try {
-                                    $result = $conn->query($sql);
+                                    $result = $stmt->execute();
 
                                     if ($result === TRUE) {
-                                        // echo "Record inserted successfully<br>";
+                                        // echo "Record inserted/updated successfully<br>";
                                     } else {
-                                        echo '<div class="message error">Error inserting record: ' . $conn->error . '</div>';
-                                        // echo "Error inserting record: " . $conn->error . "<br>";
+                                        echo '<div class="message error">Error inserting/updating record: ' . $stmt->error . '</div>';
                                     }
                                 } catch (Exception $e) {
                                     // Handle any exceptions, such as duplicate key errors
                                     echo '<div class="message error">Exception caught: ' . $e->getMessage() . '</div>';
-                                    // echo "Exception caught: " . $e->getMessage() . "<br>";
                                     continue; // Skip to the next iteration of the loop
                                 }
                             }
-
 
                             // Insert file info into database
                             $query = "INSERT INTO uploaded_files (file_name, file_size, file_type, stored_path) VALUES (?, ?, ?, ?)";
