@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($bill_unit_no))
         $errors[] = "Bill Unit No is required.";
     if (empty($allocation) || !is_numeric($allocation))
-        $errors[] = "Allocation must be a numeric value.";
+        $errors[] = "Allocation must be a positive numeric value.";
     if ($operator == "default")
         $errors[] = "Operator is required.";
     if (empty($plan) || !in_array($plan, ['A', 'B', 'C']))

@@ -42,12 +42,12 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             $query = "
                 SELECT 
                     c.allocation,
-                    GROUP_CONCAT(DISTINCT b.bill_date ORDER BY b.bill_date ASC SEPARATOR ', ') as bill_dates,
-                    SUM(b.periodic_charge + b.usage_amount + b.data_amount + b.voice + b.video + b.sms + b.vas) as total_amount
+                    GROUP_CONCAT(DISTINCT CONCAT(b.bill_month, '-', b.bill_year) ORDER BY b.bill_year, b.bill_month ASC SEPARATOR ', ') AS bill_dates,
+                    SUM(b.periodic_charge + b.usage_amount + b.data_amount + b.voice + b.video + b.sms + b.vas) AS total_amount
                 FROM 
                     cugdetails c
                 JOIN 
-                    bills b ON c.cug_id = b.cug_id
+                    bills b ON c.cug_number = b.cug_number
                 GROUP BY 
                     c.allocation
                 ORDER BY 
