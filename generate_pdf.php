@@ -9,12 +9,11 @@ class PDF extends FPDF
     {
         // Arial bold 15
         $this->SetFont('Arial', 'B', 15);
-        // Move to the right
-        $this->Cell(80);
         // Title
-        $this->Cell(30, 10, 'Allocation Report', 0, 1, 'C');
-        // Line break
-        $this->Ln(20);
+        $this->Cell(0, 10, 'East Coast Railway, Bhubaneswar', 0, 1, 'C');
+        $this->SetFont('Arial', '', 12);
+        $this->Cell(0, 10, 'Consolidated CUG Bill', 0, 1, 'C');
+        $this->Ln(10); // Line break
     }
 
     // Page footer
@@ -28,7 +27,7 @@ class PDF extends FPDF
         $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
     }
 
-    // Load data
+    // Load data from database
     function LoadData($conn)
     {
         $query = "
@@ -58,64 +57,175 @@ class PDF extends FPDF
         return $data;
     }
 
-    // Table
-    function BasicTable($header, $data, $cgst_percentage, $sgst_percentage)
+    // Generate table
+    function BasicTable($header, $data)
     {
         // Header
         foreach ($header as $col) {
             $this->Cell(60, 7, $col, 1);
         }
         $this->Ln();
-        
         // Data
-        $grand_total_amount = 0;
         foreach ($data as $row) {
-            $total_amount = $row['total_amount'];
-            $grand_total_amount += $total_amount;
-
             $this->Cell(60, 6, $row['allocation'], 1);
             $this->Cell(60, 6, $row['bill_dates'], 1);
-            $this->Cell(60, 6, 'Rs. ' . number_format($total_amount, 2), 1);
+            $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 1);
             $this->Ln();
         }
+    }
 
-        // Calculate CGST and SGST
-        $grand_total_cgst = ($grand_total_amount * $cgst_percentage) / 100;
-        $grand_total_sgst = ($grand_total_amount * $sgst_percentage) / 100;
-        $grand_total_payable = $grand_total_amount + $grand_total_cgst + $grand_total_sgst;
+    // Calculate total payable amount including CGST and SGST
+    function CalculateTotalPayable($data)
+    {
+        $total_amount = array_sum(array_column($data, 'total_amount'));
+        $cgst = $total_amount * 0.09; // Assuming CGST rate is 9%
+        $sgst = $total_amount * 0.09; // Assuming SGST rate is 9%
+        $total_payable = $total_amount + $cgst + $sgst;
 
-        // Display grand total, CGST, SGST, and total payable
-        $this->Ln();
-        $this->Cell(120, 6, 'Grand Total', 1);
-        $this->Cell(60, 6, 'Rs. ' . number_format($grand_total_amount, 2), 1);
-        $this->Ln();
-        $this->Cell(120, 6, 'CGST', 1);
-        $this->Cell(60, 6, 'Rs. ' . number_format($grand_total_cgst, 2), 1);
-        $this->Ln();
-        $this->Cell(120, 6, 'SGST', 1);
-        $this->Cell(60, 6, 'Rs. ' . number_format($grand_total_sgst, 2), 1);
-        $this->Ln();
-        $this->Cell(120, 6, 'Total Amount Payable', 1);
-        $this->Cell(60, 6, 'Rs. ' . number_format($grand_total_payable, 2), 1);
+        return [
+            'total_amount' => $total_amount,
+            'cgst' => $cgst,
+            'sgst' => $sgst,
+            'total_payable' => $total_payable
+        ];
     }
 }
 
 $pdf = new PDF();
 // Column headings
 $header = ['Allocation', 'Bill Dates', 'Amount'];
-// Fetch GST percentages
-$gst_query = "SELECT cgst_percentage, sgst_percentage FROM gst LIMIT 1";
-$gst_result = $conn->query($gst_query);
-$gst_data = $gst_result->fetch_assoc();
-$cgst_percentage = $gst_data['cgst_percentage'];
-$sgst_percentage = $gst_data['sgst_percentage'];
 // Data loading
 $data = $pdf->LoadData($conn);
-$pdf->SetFont('Arial', '', 12);
+
 $pdf->AddPage();
-$pdf->BasicTable($header, $data, $cgst_percentage, $sgst_percentage);
-$pdf->Output('D', 'allocation_report.pdf');
+$pdf->SetFont('Arial', '', 12);
+$pdf->BasicTable($header, $data);
+
+// Calculate total payable amounts
+$totals = $pdf->CalculateTotalPayable($data);
+
+// Output the table with totals
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 10, 'Total Payable Amount: Rs. ' . number_format($totals['total_payable'], 2), 0, 1);
+$pdf->SetFont('Arial', '', 12);
+$pdf->MultiCell(0, 10, "Passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only), including CGST: Rs. " . number_format($totals['cgst'], 2) . " and SGST: Rs. " . number_format($totals['sgst'], 2));
+
+// Output PDF to browser
+$pdf->Output('D', 'consolidated_cug_bill.pdf');
 
 // Close database connection
 $conn->close();
+
+// Function to convert number to words (Indian numbering system)
+function convert_number_to_words($number)
+{
+    $hyphen      = '-';
+    $conjunction = ' and ';
+    $separator   = ', ';
+    $negative    = 'negative ';
+    $decimal     = ' point ';
+    $dictionary  = array(
+        0                   => 'zero',
+        1                   => 'one',
+        2                   => 'two',
+        3                   => 'three',
+        4                   => 'four',
+        5                   => 'five',
+        6                   => 'six',
+        7                   => 'seven',
+        8                   => 'eight',
+        9                   => 'nine',
+        10                  => 'ten',
+        11                  => 'eleven',
+        12                  => 'twelve',
+        13                  => 'thirteen',
+        14                  => 'fourteen',
+        15                  => 'fifteen',
+        16                  => 'sixteen',
+        17                  => 'seventeen',
+        18                  => 'eighteen',
+        19                  => 'nineteen',
+        20                  => 'twenty',
+        30                  => 'thirty',
+        40                  => 'forty',
+        50                  => 'fifty',
+        60                  => 'sixty',
+        70                  => 'seventy',
+        80                  => 'eighty',
+        90                  => 'ninety',
+        100                 => 'hundred',
+        1000                => 'thousand',
+        1000000             => 'million',
+        1000000000          => 'billion',
+        1000000000000       => 'trillion',
+        1000000000000000    => 'quadrillion',
+        1000000000000000000 => 'quintillion'
+    );
+
+    if (!is_numeric($number)) {
+        return false;
+    }
+
+    if (($number >= 0 && (int)$number < 0) || (int)$number < 0 - PHP_INT_MAX) {
+        // overflow
+        trigger_error(
+            'convert_number_to_words only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX,
+            E_USER_WARNING
+        );
+        return false;
+    }
+
+    if ($number < 0) {
+        return $negative . convert_number_to_words(abs($number));
+    }
+
+    $string = $fraction = null;
+
+    if (strpos($number, '.') !== false) {
+        list($number, $fraction) = explode('.', $number);
+    }
+
+    switch (true) {
+        case $number < 21:
+            $string = $dictionary[$number];
+            break;
+        case $number < 100:
+            $tens   = ((int)($number / 10)) * 10;
+            $units  = $number % 10;
+            $string = $dictionary[$tens];
+            if ($units) {
+                $string .= $hyphen . $dictionary[$units];
+            }
+            break;
+        case $number < 1000:
+            $hundreds  = $number / 100;
+            $remainder = $number % 100;
+            $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+            if ($remainder) {
+                $string .= $conjunction . convert_number_to_words($remainder);
+            }
+            break;
+        default:
+            $baseUnit = pow(1000, floor(log($number, 1000)));
+            $numBaseUnits = (int)($number / $baseUnit);
+            $remainder = $number % $baseUnit;
+            $string = convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+            if ($remainder) {
+                $string .= $remainder < 100 ? $conjunction : $separator;
+                $string .= convert_number_to_words($remainder);
+            }
+            break;
+    }
+
+    if (null !== $fraction && is_numeric($fraction)) {
+        $string .= $decimal;
+        $words = array();
+        foreach (str_split((string)$fraction) as $number) {
+            $words[] = $dictionary[$number];
+        }
+        $string .= implode(' ', $words);
+    }
+
+    return $string;
+}
 ?>
