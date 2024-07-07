@@ -38,6 +38,13 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             // Include database connection file
             include 'db_connect.php';
 
+            // Fetch GST percentages
+            $gst_query = "SELECT cgst_percentage, sgst_percentage FROM gst LIMIT 1";
+            $gst_result = $conn->query($gst_query);
+            $gst_data = $gst_result->fetch_assoc();
+            $cgst_percentage = $gst_data['cgst_percentage'];
+            $sgst_percentage = $gst_data['sgst_percentage'];
+
             // SQL query to fetch and aggregate data
             $query = "
                 SELECT 
@@ -60,13 +67,39 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
                 echo '<table border="1">';
                 echo '<tr><th>Allocation</th><th>Bill Dates</th><th>Amount</th></tr>';
 
+                $grand_total_amount = 0;
+
                 while ($row = $result->fetch_assoc()) {
+                    $total_amount = $row['total_amount'];
+                    $grand_total_amount += $total_amount;
+
                     echo '<tr>';
                     echo '<td>' . $row['allocation'] . '</td>';
                     echo '<td>' . $row['bill_dates'] . '</td>';
-                    echo '<td> Rs. ' . number_format($row['total_amount'], 2) . '</td>';
+                    echo '<td> Rs. ' . number_format($total_amount, 2) . '</td>';
                     echo '</tr>';
                 }
+
+                $grand_total_cgst = ($grand_total_amount * $cgst_percentage) / 100;
+                $grand_total_sgst = ($grand_total_amount * $sgst_percentage) / 100;
+                $grand_total_payable = $grand_total_amount + $grand_total_cgst + $grand_total_sgst;
+
+                echo '<tr>';
+                echo '<td colspan="2" style="text-align: right;">Grand Total :</td>';
+                echo '<td> Rs. ' . number_format($grand_total_amount, 2) . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td colspan="2" style="text-align: right;">CGST ₹</td>';
+                echo '<td> Rs. ' . number_format($grand_total_cgst, 2) . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td colspan="2" style="text-align: right;">SGST ₹</td>';
+                echo '<td> Rs. ' . number_format($grand_total_sgst, 2) . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td colspan="2" style="text-align: right;">Total Payable :</td>';
+                echo '<td> Rs. ' . number_format($grand_total_payable, 2) . '</td>';
+                echo '</tr>';
 
                 echo '</table>';
             } else {
