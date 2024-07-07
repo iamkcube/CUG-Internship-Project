@@ -25,20 +25,22 @@
         <h2 class="heading">Deactivate CUG</h2>
     </div>
     <main class="main-content">
-        <form class="cug-form" method="POST" action="deactivate-cug.php">
+        <form class="cug-form" method="POST" action="">
             <div class="form-group">
                 <label for="cugNo" class="cug-no-label">CUG NO</label>
                 <input type="text" id="cugNo" name="cugNo" class="cug-no-input" placeholder="Enter CUG No." required>
-                <button type="submit" class="submit-button">GO</button>
+                <button type="submit" name="search" class="submit-button">GO</button>
             </div>
         </form>
     </main>
     <?php
-
     // Include database connection script
     include 'db_connect.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $cug_no = null;
+    $message = null;
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
         $cug_no = $_POST['cugNo'];
 
         // Select the record to display it
@@ -51,30 +53,30 @@
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
 
-            echo "<form method='POST' action='deactivate-cug.php'>";
+            echo "<form method='POST' action=''>";
             echo "<input type='hidden' name='cugNo' value='$cug_no'>";
             echo "<button type='submit' name='deactivate' class='deactivate-button'>Deactivate</button>";
             echo "</form>";
 
             echo "<table>
-                        <thead>
-                            <tr>
-                                <th>CUG Number</th>
-                                <th>Employee Number</th>
-                                <th>Employee Name</th>
-                                <th>Designation</th>
-                                <th>Unit</th>
-                                <th>Department</th>
-                                <th>Bill Unit No</th>
-                                <th>Allocation</th>
-                                <th>Operator</th>
-                                <th>Plan</th>
-                                <th>Status</th>
-                                <th>Activate from</th>
-                                <th>Inactive at</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
+                    <thead>
+                        <tr>
+                            <th>CUG Number</th>
+                            <th>Employee Number</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Unit</th>
+                            <th>Department</th>
+                            <th>Bill Unit No</th>
+                            <th>Allocation</th>
+                            <th>Operator</th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Activate from</th>
+                            <th>Inactive at</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
             echo "<tr>";
             echo "<td>" . $row["cug_number"] . "</td>";
             echo "<td>" . $row["emp_number"] . "</td>";
@@ -90,11 +92,30 @@
             echo "<td>" . $row["activate_from"] . "</td>";
             echo "<td>" . $row["inactive_at"] . "</td>";
             echo "</tr>
-                    </tbody>
-                    </table>";
+                </tbody>
+                </table>";
+        } else {
+            $message = "No records found";
+        }
 
-            // Check if deactivate button was clicked
-            if (isset($_POST['deactivate'])) {
+        $stmt->close();
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deactivate'])) {
+        $cug_no = $_POST['cugNo'];
+
+        // Check if the status is already 'Inactive'
+        $select_status_sql = "SELECT status FROM cugdetails_transaction WHERE cug_number = ?";
+        $stmt_status = $conn->prepare($select_status_sql);
+        $stmt_status->bind_param("s", $cug_no);
+        $stmt_status->execute();
+        $result_status = $stmt_status->get_result();
+
+        if ($result_status->num_rows > 0) {
+            $row_status = $result_status->fetch_assoc();
+            if ($row_status['status'] == 'Inactive') {
+                $message = "CUG number $cug_no is already deactivated.";
+            } else {
                 // Begin transaction
                 $conn->begin_transaction();
 
@@ -113,27 +134,32 @@
                     if ($stmt_update->execute() && $stmt_delete->execute()) {
                         // Commit transaction
                         $conn->commit();
-                        echo "<p class='session-message'>CUG number $cug_no deactivated and deleted successfully.</p>";
+                        $message = "CUG number $cug_no deactivated and deleted successfully.";
                     } else {
                         // Rollback transaction if either statement fails
                         $conn->rollback();
-                        echo "<p class='session-message'>Error deactivating and deleting CUG number.</p>";
+                        $message = "Error deactivating and deleting CUG number.";
                     }
 
                 } catch (Exception $e) {
                     // Rollback transaction in case of error
                     $conn->rollback();
-                    echo "<p class='session-message'>Error deactivating and deleting CUG number: " . $e->getMessage() . "</p>";
+                    $message = "Error deactivating and deleting CUG number: " . $e->getMessage();
                 }
             }
-
         } else {
-            echo "<p>No records found</p>";
+            $message = "CUG number not found.";
         }
 
-        $stmt->close();
+        $stmt_status->close();
     }
 
+    // Display the message if available
+    if ($message) {
+        echo "<p class='session-message'>" . htmlspecialchars($message) . "</p>";
+    }
+
+    // Close the database connection
     $conn->close();
     ?>
 </body>
