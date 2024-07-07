@@ -79,7 +79,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 // Get row data as array
                                 $rowData = $sheet->rangeToArray('A' . $row . ':' . $sheet->getHighestColumn() . $row, NULL, TRUE, FALSE);
 
-                                // Prepare values for insertion
+                                // Prepare values for insertion/update
                                 $cug_number = $rowData[0][0];
                                 $emp_number = $rowData[0][1];
                                 $empname = $rowData[0][2];
@@ -90,14 +90,14 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $allocation = $rowData[0][7];
                                 $operator = $rowData[0][8];
                                 $plan = $rowData[0][9];
-                                $status = $rowData[0][10];
+                                $status = 'Active'; // Default status
 
                                 // Skip the row if CUG number is null
                                 if (empty($cug_number)) {
                                     continue;
                                 }
 
-                                // Check if the CUG number already exists
+                                // Check if the CUG number already exists in cugdetails table
                                 $checkSql = "SELECT COUNT(*) AS count FROM cugdetails WHERE cug_number = ?";
                                 $stmt = $conn->prepare($checkSql);
                                 $stmt->bind_param("s", $cug_number);
@@ -106,29 +106,50 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $countRow = $result->fetch_assoc();
 
                                 if ($countRow['count'] > 0) {
-                                    // Update the existing record
-                                    $sql = "UPDATE cugdetails SET emp_number = ?, empname = ?, designation = ?, unit = ?, department = ?, bill_unit_no = ?, allocation = ?, operator = ?, plan = ?, status = 'Active' WHERE cug_number = ?";
+                                    // Update the existing record in cugdetails table
+                                    $sql = "UPDATE cugdetails SET emp_number = ?, empname = ?, designation = ?, unit = ?, department = ?, bill_unit_no = ?, allocation = ?, operator = ?, plan = ?, status = ? WHERE cug_number = ?";
                                     $stmt = $conn->prepare($sql);
-                                    $stmt->bind_param("ssssssssss", $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $cug_number);
+                                    $stmt->bind_param("sssssssssss", $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status, $cug_number);
                                 } else {
-                                    // Insert a new record
-                                    $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active')";
+                                    // Insert a new record in cugdetails table
+                                    $sql = "INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                     $stmt = $conn->prepare($sql);
-                                    $stmt->bind_param("ssssssssss", $cug_number, $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan);
+                                    $stmt->bind_param("sssssssssss", $cug_number, $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status);
                                 }
 
-                                // Attempt to execute the SQL statement
+                                // Execute SQL statement for cugdetails table
                                 try {
-                                    $result = $stmt->execute();
-
-                                    if ($result === TRUE) {
-                                        // echo "Record inserted/updated successfully<br>";
-                                    } else {
-                                        echo '<div class="message error">Error inserting/updating record: ' . $stmt->error . '</div>';
-                                    }
+                                    $stmt->execute();
                                 } catch (Exception $e) {
-                                    // Handle any exceptions, such as duplicate key errors
-                                    echo '<div class="message error">Exception caught: ' . $e->getMessage() . '</div>';
+                                    echo '<div class="message error">Exception caught while updating cugdetails table: ' . $e->getMessage() . '</div>';
+                                    continue; // Skip to the next iteration of the loop
+                                }
+
+                                // Check if the CUG number already exists in cugdetails_transaction table
+                                $checkTransactionSql = "SELECT COUNT(*) AS count FROM cugdetails_transaction WHERE cug_number = ?";
+                                $stmtTransaction = $conn->prepare($checkTransactionSql);
+                                $stmtTransaction->bind_param("s", $cug_number);
+                                $stmtTransaction->execute();
+                                $resultTransaction = $stmtTransaction->get_result();
+                                $countTransactionRow = $resultTransaction->fetch_assoc();
+
+                                if ($countTransactionRow['count'] > 0) {
+                                    // Update the existing record in cugdetails_transaction table
+                                    $sqlTransaction = "UPDATE cugdetails_transaction SET emp_number = ?, empname = ?, designation = ?, unit = ?, department = ?, bill_unit_no = ?, allocation = ?, operator = ?, plan = ?, status = ? WHERE cug_number = ?";
+                                    $stmtTransaction = $conn->prepare($sqlTransaction);
+                                    $stmtTransaction->bind_param("sssssssssss", $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status, $cug_number);
+                                } else {
+                                    // Insert a new record in cugdetails_transaction table
+                                    $sqlTransaction = "INSERT INTO cugdetails_transaction (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                    $stmtTransaction = $conn->prepare($sqlTransaction);
+                                    $stmtTransaction->bind_param("sssssssssss", $cug_number, $emp_number, $empname, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status);
+                                }
+
+                                // Execute SQL statement for cugdetails_transaction table
+                                try {
+                                    $stmtTransaction->execute();
+                                } catch (Exception $e) {
+                                    echo '<div class="message error">Exception caught while updating cugdetails_transaction table: ' . $e->getMessage() . '</div>';
                                     continue; // Skip to the next iteration of the loop
                                 }
                             }
@@ -144,30 +165,24 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                             } else {
                                 echo '<div class="message error">Failed to store file info in the database.</div>';
                             }
-
-                            $stmt->close();
                         } else {
-                            echo '<div class="message error">There was some error moving the file to store directory. Please make sure the store directory is writable by the web server.</div>';
+                            echo '<div class="message error">Error moving uploaded file to destination directory.</div>';
                         }
                     } else {
-                        echo '<div class="message error">Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions) . '</div>';
+                        echo '<div class="message error">Invalid file extension. Allowed extensions are xlsx, xls.</div>';
                     }
                 } else {
-                    echo '<div class="message error">There is no file uploaded or there is an error with the file upload.</div>';
+                    echo '<div class="message error">Error uploading file. Please try again.</div>';
                 }
             }
-
-            // Close database connection
-            $conn->close();
             ?>
+
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+        <div class="footer_container">
+            <p>Developed by ECS.</p>
         </div>
     </footer>
 </body>
