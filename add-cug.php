@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Name is required.";
     if (empty($cug_no)) {
         $errors[] = "CUG No is required.";
-    } elseif (!is_numeric($cug_no) || (strlen($cug_no) != 10 && strlen($cug_no) != 11) || $cug_no <= 0) {
+    } elseif (!is_numeric($cug_no) || (strlen($cug_no) != 10) || $cug_no <= 0) {
         $errors[] = "CUG No must be a positive numeric value and 10 digits long.";
     }
     if (empty($emp_no)) {
@@ -61,20 +61,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['errors'] = $errors;
         $_SESSION['form_data'] = $_POST;
     } else {
-        $stmt = $conn->prepare("INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        if ($stmt === false) {
-            die('Prepare failed: ' . htmlspecialchars($conn->error));
-        }
-
-        $stmt->bind_param("iisssssdsss", $cug_no, $emp_no, $name, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status);
-
-        if ($stmt->execute()) {
-            $_SESSION['success'] = "CUG is successfully allotted to $name";
+        // Prepare and execute insertion into cugdetails
+        $stmt_cug = $conn->prepare("INSERT INTO cugdetails (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt_cug === false) {
+            $_SESSION['errors'] = ["Error preparing cugdetails statement: " . $conn->error];
         } else {
-            $_SESSION['errors'] = ["Error: " . $stmt->error];
-        }
+            $stmt_cug->bind_param("iisssssdsss", $cug_no, $emp_no, $name, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status);
+            if ($stmt_cug->execute()) {
+                $_SESSION['success'] = "CUG is successfully allotted to $name";
 
-        $stmt->close();
+                // Insert into cugdetails_transaction after successful insertion into cugdetails
+                $stmt_transaction = $conn->prepare("INSERT INTO cugdetails_transaction (cug_number, emp_number, empname, designation, unit, department, bill_unit_no, allocation, operator, plan, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if ($stmt_transaction === false) {
+                    $_SESSION['errors'] = ["Error preparing transaction statement: " . $conn->error];
+                } else {
+                    $stmt_transaction->bind_param("iisssssdsss", $cug_no, $emp_no, $name, $designation, $unit, $department, $bill_unit_no, $allocation, $operator, $plan, $status);
+                    if ($stmt_transaction->execute()) {
+                        $_SESSION['success'] .= " & Transaction recorded.";
+                    } else {
+                        $_SESSION['errors'] = ["Error inserting transaction: " . $stmt_transaction->error];
+                    }
+                    $stmt_transaction->close();
+                }
+            } else {
+                $_SESSION['errors'] = ["Error inserting into cugdetails: " . $stmt_cug->error];
+            }
+            $stmt_cug->close();
+        }
     }
 
     header("Location: add-cug.php");
