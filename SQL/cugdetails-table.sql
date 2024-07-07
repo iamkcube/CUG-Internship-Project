@@ -11,7 +11,7 @@ CREATE TABLE cugdetails (
     allocation VARCHAR(50) NOT NULL CHECK (allocation > 0),
     operator VARCHAR(50) NOT NULL,
     plan ENUM('A', 'B', 'C') NOT NULL,
-    status ENUM('Active', 'Inactive') NOT NULL
+    status CHAR(6) DEFAULT 'Active' CHECK (status = 'Active')
 );
 
 
