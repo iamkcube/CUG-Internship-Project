@@ -32,7 +32,7 @@ class PDF extends FPDF
     {
         $query = "
             SELECT 
-                c.allocation,
+                c.plan,
                 GROUP_CONCAT(DISTINCT CONCAT(b.bill_month, '-', b.bill_year) ORDER BY b.bill_year, b.bill_month ASC SEPARATOR ', ') AS bill_dates,
                 SUM(b.periodic_charge + b.usage_amount + b.data_amount + b.voice + b.video + b.sms + b.vas) AS total_amount
             FROM 
@@ -40,9 +40,9 @@ class PDF extends FPDF
             JOIN 
                 bills b ON c.cug_number = b.cug_number
             GROUP BY 
-                c.allocation
+                c.plan
             ORDER BY 
-                c.allocation;
+                c.plan;
         ";
 
         $result = $conn->query($query);
@@ -67,7 +67,7 @@ class PDF extends FPDF
         $this->Ln();
         // Data
         foreach ($data as $row) {
-            $this->Cell(60, 6, $row['allocation'], 1);
+            $this->Cell(60, 6, $row['plan'], 1);
             $this->Cell(60, 6, $row['bill_dates'], 1);
             $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 1);
             $this->Ln();
@@ -93,7 +93,7 @@ class PDF extends FPDF
 
 $pdf = new PDF();
 // Column headings
-$header = ['Allocation', 'Bill Dates', 'Amount'];
+$header = ['plan', 'Bill Dates', 'Amount'];
 // Data loading
 $data = $pdf->LoadData($conn);
 
@@ -108,10 +108,15 @@ $totals = $pdf->CalculateTotalPayable($data);
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(0, 10, 'Total Payable Amount: Rs. ' . number_format($totals['total_payable'], 2), 0, 1);
 $pdf->SetFont('Arial', '', 12);
-$pdf->MultiCell(0, 10, "Passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only), including CGST: Rs. " . number_format($totals['cgst'], 2) . " and SGST: Rs. " . number_format($totals['sgst'], 2));
+$pdf->MultiCell(0, 10, "Passed for Rs. " . number_format($totals['total_payable'], 2) . 
+        " (Rupees " . convert_number_to_words($totals['total_payable']) . 
+        " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . 
+        " (Rupees " . convert_number_to_words($totals['total_payable']) . 
+        " Only), including CGST: Rs. " . number_format($totals['cgst'], 2) . 
+        " and SGST: Rs. " . number_format($totals['sgst'], 2));
 
 // Output PDF to browser
-$pdf->Output('D', 'consolidated_cug_bill.pdf');
+$pdf->Output('D', 'consolidated_cug_plan_bill.pdf');
 
 // Close database connection
 $conn->close();
