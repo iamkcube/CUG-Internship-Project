@@ -20,6 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	if (!is_numeric($cug_no) || !is_numeric($periodic_charge) || !is_numeric($usage_amount) || !is_numeric($data_amount) || !is_numeric($voice) || !is_numeric($video) || !is_numeric($sms) || !is_numeric($vas)) {
 		$_SESSION['message'] = "All fields are required and must be valid numbers.";
+
+		// Preserve form data in session to repopulate fields
+		$_SESSION['form_data'] = [
+			'cugno' => $cug_no,
+			'periodic_charge' => $periodic_charge,
+			'usage_amount' => $usage_amount,
+			'data_amount' => $data_amount,
+			'voice' => $voice,
+			'video' => $video,
+			'sms' => $sms,
+			'vas' => $vas
+		];
 	} else {
 		// Prepare statement to retrieve cug_id based on cug_number
 		$stmt_cug = $conn->prepare("SELECT cug_id FROM cugdetails WHERE cug_number = ? AND status = 'Active'");
@@ -29,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		// Fetch the cug_id
 		if ($stmt_cug->fetch()) {
-
 			$stmt_cug->close();
 
 			// Prepare and bind the INSERT statement for bills table
@@ -39,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// Execute the statement
 			if ($stmt_insert->execute()) {
 				$_SESSION['message'] = "Bill is successfully uploaded for CUG number: $cug_no";
+				// Clear form data from session after successful submission
+				unset($_SESSION['form_data']);
 			} else {
 				$_SESSION['message'] = "Error: " . $stmt_insert->error;
 			}
@@ -54,16 +67,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Upload CUG Numbers</title>
+	<title>Add Bill</title>
+	<link rel="icon" type="image/webp" href="logo.webp" />
 	<link rel="stylesheet" href="base.css" />
-	<link rel="stylesheet" href="upload-numbers.css" />
+	<link rel="stylesheet" href="add-bill.css" />
 </head>
 
 <body>
@@ -81,48 +94,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<div class="heading-container">
 				<button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
 						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
-				<h2 class="heading">Upload CUG Numbers</h2>
+				<h2 class="heading">Add New Bill</h2>
 			</div>
 			<?php
 			if (isset($_SESSION['message'])) {
 				echo "<p class='session-message'>" . $_SESSION['message'] . "</p>";
 				unset($_SESSION['message']);
 			}
+			$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [
+				'cugno' => '',
+				'periodic_charge' => '',
+				'usage_amount' => '',
+				'data_amount' => '',
+				'voice' => '',
+				'video' => '',
+				'sms' => '',
+				'vas' => ''
+			];
 			?>
 			<form class="form_container" action="#" method="post">
 				<div class="input_box">
 					<label for="cugno">CUG NO</label>
-					<input type="number" id="cugno" name="cugno" placeholder="Enter CUG number" required />
+					<input type="number" id="cugno" name="cugno" placeholder="Enter CUG number"
+						value="<?php echo htmlspecialchars($form_data['cugno']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="periodic_charge">Periodic Charge</label>
 					<input type="number" id="periodic_charge" name="periodic_charge" placeholder="Enter Periodic Charge"
-						required />
+						value="<?php echo htmlspecialchars($form_data['periodic_charge']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="usage_amount">Usage Amount</label>
 					<input type="number" id="usage_amount" name="usage_amount" placeholder="Enter Usage Amount"
-						required />
+						value="<?php echo htmlspecialchars($form_data['usage_amount']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="data_amount">Data Amount</label>
-					<input type="number" id="data_amount" name="data_amount" placeholder="Enter Data Amount" required />
+					<input type="number" id="data_amount" name="data_amount" placeholder="Enter Data Amount"
+						value="<?php echo htmlspecialchars($form_data['data_amount']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="voice">Voice</label>
-					<input type="number" id="voice" name="voice" placeholder="Enter Voice charges" required />
+					<input type="number" id="voice" name="voice" placeholder="Enter Voice charges"
+						value="<?php echo htmlspecialchars($form_data['voice']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="video">Video</label>
-					<input type="number" id="video" name="video" placeholder="Enter Video charges" required />
+					<input type="number" id="video" name="video" placeholder="Enter Video charges"
+						value="<?php echo htmlspecialchars($form_data['video']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="sms">SMS</label>
-					<input type="number" id="sms" name="sms" placeholder="Enter SMS charges" required />
+					<input type="number" id="sms" name="sms" placeholder="Enter SMS charges"
+						value="<?php echo htmlspecialchars($form_data['sms']); ?>" required />
 				</div>
 				<div class="input_box">
 					<label for="vas">VAS</label>
-					<input type="number" id="vas" name="vas" placeholder="Enter VAS charges" required />
+					<input type="number" id="vas" name="vas" placeholder="Enter VAS charges"
+						value="<?php echo htmlspecialchars($form_data['vas']); ?>" required />
 				</div>
 				<button class="submit-button" type="submit">
 					Submit
