@@ -110,7 +110,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             $conn->close();
             ?>
 
-            <form method="post" action="generate_pdf.php">
+            <form method="post" action="generate_pdf_plan.php">
                 <button type="submit" name="generate_pdf">Generate PDF</button>
             </form>
         </section>
