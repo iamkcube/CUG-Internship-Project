@@ -8,22 +8,18 @@
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="admin-page.css" />
     <style>
-      /* Add this CSS to your admin-page.css or base.css */
       html,
       body {
         height: 100%;
         margin: 0;
       }
-
       body {
         display: flex;
         flex-direction: column;
       }
-
       .content {
         flex: 1;
       }
-
       footer {
         text-align: center;
         padding: 1rem;
@@ -49,6 +45,21 @@
         margin: 0;
       }
     </style>
+    <script>
+      function logoutadmin() {
+        sessionStorage.removeItem("loggedIn");
+        alert("You have been logged out.");
+        window.location.href = "dealer-login.html";
+      }
+
+      function checkLogin() {
+        if (!sessionStorage.getItem("loggedIn")) {
+          window.location.href = "dealer-login.html";
+        }
+      }
+
+      window.onload = checkLogin;
+    </script>
   </head>
   <body>
     <div class="content">
@@ -60,13 +71,7 @@
           </a>
           <button class="logout-button" onclick="logoutadmin()">Logout</button>
         </div>
-        <!-- <nav>
-                <ul>
-                    <li><a href="index.html">Admin Page</a></li>
-                </ul>
-            </nav> -->
       </header>
-
       <section id="admin-services">
         <h2>Dealer Services</h2>
         <div class="services-container">
@@ -107,7 +112,6 @@
         </div>
       </section>
     </div>
-
     <footer>
       <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
       <div class="footer-links">
@@ -115,13 +119,5 @@
         <a href="#">Terms of Service</a>
       </div>
     </footer>
-    <script>
-      function logoutadmin() {
-        // Handle the logout action here
-        alert("You have been logged out.");
-        // Redirect to the login page or perform any other logout actions
-        window.location.href = "dealer-login.html";
-      }
-    </script>
   </body>
 </html>
