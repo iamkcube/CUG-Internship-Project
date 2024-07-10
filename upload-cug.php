@@ -1,4 +1,7 @@
 <?php
+session_start();
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
+
 // Include database connection file
 include 'db_connect.php';
 
@@ -32,7 +35,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
     <main>
         <section id="create-dealer">
             <div class="heading-container">
-                <button class="back-btn" onclick="window.location.href = './admin-page.html'">
+                <button class="back-btn" id="roleRedirectButton" data-role="<?php echo $role; ?>">
                     <img src="icon/back-button.webp" alt="back button">
                 </button>
                 <h2 class="heading">Upload CUG Numbers</h2>
@@ -210,6 +213,24 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
             {
                 remainingErrors.forEach(error => error.classList.remove("hidden"));
                 moreButton.remove();
+            });
+
+            const redirectButton = document.getElementById("roleRedirectButton");
+            const userRole = redirectButton.getAttribute("data-role");
+
+            // Role based Redirection -------------------------
+            redirectButton.addEventListener("click", function ()
+            {
+                if (userRole === 'admin')
+                {
+                    window.location.href = 'admin-page.html';
+                } else if (userRole === 'dealer')
+                {
+                    window.location.href = 'dealer-page.html';
+                } else
+                {
+                    alert("Error: Unexpected role. Please login again.");
+                }
             });
         });
     </script>

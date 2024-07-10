@@ -5,6 +5,21 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 // Include database connection script
 include 'db_connect.php';
 
+// Query to fetch all plans from the database
+$query = "SELECT * FROM plans";
+$result = $conn->query($query);
+
+// Check if any plans are found
+$plans = [];
+if ($result->num_rows > 0) {
+    // Fetch all plans
+    while ($row = $result->fetch_assoc()) {
+        $plans[] = $row;
+    }
+}
+
+// Add CUG Form ------------------------------------
+
 $name = "";
 $cug_no = "";
 $emp_no = "";
@@ -314,69 +329,32 @@ $conn->close();
                         </h2>
                     </div>
                     <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-                        <!-- Pricing Card -->
-                        <div
-                            class="plan-container flex flex-col w-full p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                            <div class="flex justify-center items-baseline my-8">
-                                <span class="mr-2 text-5xl font-extrabold">₹74.61</span>
+                        <?php foreach ($plans as $plan): ?>
+                            <div
+                                class="plan-container flex flex-col w-full p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                                <div class="flex justify-center items-baseline my-8">
+                                    <span
+                                        class="mr-2 text-5xl font-extrabold">₹<?= number_format($plan['price'], 2) ?></span>
+                                </div>
+                                <h3 class="mb-4 text-xl font-semibold">
+                                    Validity: <?= $plan['validity_days'] ?>days
+                                </h3>
+                                <p class="font-medium text-sm text-gray-800 sm:text-lg dark:text-gray-400">
+                                    Data: <?= $plan['data_per_day'] ?>GB/day
+                                </p>
+                                <p class="font-light text-gray-800 sm:text-lg dark:text-gray-400">
+                                    Talktime: <?= $plan['talktime'] ?>
+                                </p>
+                                <button type="button" data-plan="<?= $plan['plan_name'] ?>"
+                                    class="plan-option text-white bg-accent-color hover:bg-accent-color-hover focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm mt-4 px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
+                                    Select <?= $plan['plan_name'] ?>
+                                </button>
                             </div>
-                            <h3 class="mb-4 text-xl font-semibold">
-                                Validity: 84days
-                            </h3>
-                            <p class="font-medium text-sm text-gray-800 sm:text-lg dark:text-gray-400">
-                                Data: 2.0GB/day
-                            </p>
-                            <p class="font-light text-gray-800 sm:text-lg dark:text-gray-400">
-                                Talktime: Unlimited
-                            </p>
-                            <button type="button" data-plan="A"
-                                class="plan-option text-white bg-accent-color hover:bg-accent-color-hover focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm mt-4 px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
-                                Select A
-                            </button>
-                        </div>
-                        <!-- Pricing Card -->
-                        <div
-                            class="plan-container flex flex-col w-full p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                            <div class="flex justify-center items-baseline my-8">
-                                <span class="mr-2 text-5xl font-extrabold">₹59.05</span>
-                            </div>
-                            <h3 class="mb-4 text-xl font-semibold">
-                                Validity: 56days
-                            </h3>
-                            <p class="font-medium text-sm text-gray-800 sm:text-lg dark:text-gray-400">
-                                Data: 1.5GB/day
-                            </p>
-                            <p class="font-light text-gray-800 sm:text-lg dark:text-gray-400">
-                                Talktime: Unlimited
-                            </p>
-                            <button type="button" data-plan="B"
-                                class="plan-option text-white bg-accent-color hover:bg-accent-color-hover focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm mt-4 px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
-                                Select B
-                            </button>
-                        </div>
-                        <!-- Pricing Card -->
-                        <div
-                            class="plan-container flex flex-col w-full p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                            <div class="flex justify-center items-baseline my-8">
-                                <span class="mr-2 text-5xl font-extrabold">₹39.9</span>
-                            </div>
-                            <h3 class="mb-4 text-xl font-semibold">
-                                Validity: 28days
-                            </h3>
-                            <p class="font-medium text-sm text-gray-800 sm:text-lg dark:text-gray-400">
-                                Data: 1.0GB/day
-                            </p>
-                            <p class="font-light text-gray-800 sm:text-lg dark:text-gray-400">
-                                Talktime: Unlimited
-                            </p>
-                            <button type="button" data-plan="C"
-                                class="plan-option text-white bg-accent-color hover:bg-accent-color-hover focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm mt-4 px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900">
-                                Select C
-                            </button>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>
+
             <button type="submit" class="submit-button">Submit</button>
         </form>
     </main>
