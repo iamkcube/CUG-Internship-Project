@@ -45,11 +45,12 @@
 				Established with the vision of fostering seamless collaboration and enhancing operational efficiency,
 				our CUG system provides a robust framework for internal communication and coordination.
 			</p>
-			<p>
+			<br>
+			<!-- <p>
 				At East Coast Railway, we recognize the critical importance of effective communication within our
 				organization. The CUG platform serves as a centralized hub where employees, managers, and stakeholders
 				can securely exchange information, collaborate on projects, and streamline decision-making processes.
-			</p>
+			</p> -->
 			<!-- <p>
 				Our mission is to empower East Coast Railway personnel with a comprehensive suite of communication tools
 				tailored to their specific needs. Whether it's sharing important updates, coordinating schedules, or
@@ -61,12 +62,13 @@
 				a range of features, including secure messaging, voice communication, group calls, file sharing, event
 				scheduling, user management, emergency alerts, and location tracking.
 			</p> -->
-			<p>
+			<!-- <p>
 				Join us in embracing the future of communication at East Coast Railway. Together, we can strengthen
 				collaboration, streamline operations, and ensure the seamless delivery of our services.
-			</p>
+			</p> -->
 
 			<!-- Summary Table -->
+			<h3>Summary</h3>
 			<?php
 			include 'db_connect.php';
 
