@@ -105,16 +105,16 @@ main
 }
 
 
-.form_container
+.filter-container
 {
 	position: relative;
-	width: 70vw;
+	width: 30vw;
 	margin-inline: auto;
+	margin-bottom: 2rem;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 1em;
+	gap: 0.25em;
 	background-color: rgba(0, 0, 0, 0.4);
-	padding: 4rem;
+	padding: 1rem;
 	border-radius: 10px;
 	backdrop-filter: blur(10px);
 	transition: background-color 500ms ease-in-out;

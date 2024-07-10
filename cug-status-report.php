@@ -24,7 +24,15 @@
 			<div class="heading-container">
 				<button class="back-btn" onclick="window.location.href = 'admin-page.html'"><img
 						src="icon/back-button.webp" alt="back button"></button>
-				<h2 class="heading">CUG Details</h2>
+				<h2 class="heading">CUG Status Report</h2>
+			</div>
+			<div class="filter-container">
+				<label for="status-filter">Filter by Status:</label>
+				<select id="status-filter" onchange="filterTableByStatus()">
+					<option value="all">All</option>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
 			</div>
 			<div class="table-container">
 				<table>
@@ -45,7 +53,7 @@
 							<th>Updated At</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="cug-details">
 						<?php
 						// Include database connection script
 						include 'db_connect.php';
@@ -94,30 +102,20 @@
 		</div>
 	</footer>
 	<script>
-		function filterTable()
-		{
-			const input = document.getElementById('search-bar');
-			const filter = input.value.toUpperCase();
-			const table = document.querySelector('#cug-details table');
+		function filterTableByStatus() {
+			const filter = document.getElementById('status-filter').value.toUpperCase();
+			const table = document.querySelector('#cug-status-report table tbody');
 			const tr = table.getElementsByTagName('tr');
 
-			for (let i = 1; i < tr.length; i++)
-			{
-				let tdArray = tr[i].getElementsByTagName('td');
-				let match = false;
-				for (let j = 0; j < tdArray.length; j++)
-				{
-					let td = tdArray[j];
-					if (td)
-					{
-						if (td.innerHTML.toUpperCase().indexOf(filter) > -1)
-						{
-							match = true;
-							break;
-						}
+			for (let i = 0; i < tr.length; i++) {
+				let td = tr[i].getElementsByTagName('td')[10]; // Status column is at index 10
+				if (td) {
+					if (filter === 'ALL' || td.innerHTML.toUpperCase() === filter) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
 					}
 				}
-				tr[i].style.display = match ? "" : "none";
 			}
 		}
 	</script>
