@@ -5,6 +5,48 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 // Include database connection script
 include 'db_connect.php';
 
+
+// Fetch plans
+$query = "SELECT * FROM plans";
+$result = $conn->query($query);
+$plans = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $plans[] = $row;
+    }
+}
+
+// Fetch departments
+$query = "SELECT * FROM departments";
+$result = $conn->query($query);
+$departments = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $departments[] = $row;
+    }
+}
+
+// Fetch operators
+$query = "SELECT * FROM operators";
+$result = $conn->query($query);
+$operators = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $operators[] = $row;
+    }
+}
+
+// Fetch units
+$query = "SELECT * FROM units";
+$result = $conn->query($query);
+$units = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+}
+
+
 // Query to fetch all plans from the database
 $query = "SELECT * FROM plans";
 $result = $conn->query($query);
@@ -259,10 +301,9 @@ $conn->close();
                 <select class="py-2 px-2" id="unit" name="UNIT" required>
                     <option value="default" <?php if ($unit == 'default')
                         echo 'selected'; ?>>Select unit</option>
-                    <option value="CON" <?php echo ($unit == 'CON') ? 'selected' : ''; ?>>CON</option>
-                    <option value="HQ" <?php echo ($unit == 'HQ') ? 'selected' : ''; ?>>HQ</option>
-                    <option value="MCS" <?php echo ($unit == 'MCS') ? 'selected' : ''; ?>>MCS</option>
-
+                    <?php foreach ($units as $unit_option): ?>
+                        <option value="<?php echo $unit_option['name']; ?>" <?php echo ($unit == $unit_option['name']) ? 'selected' : ''; ?>><?php echo $unit_option['name']; ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="input_box">
@@ -271,25 +312,11 @@ $conn->close();
                     <option value="default" <?php if ($department == 'default')
                         echo 'selected'; ?>>Select department
                     </option>
-                    <option value="S&T" <?php echo ($department == 'S&T') ? 'selected' : ''; ?>>S&T</option>
-                    <option value="ENGG" <?php echo ($department == 'ENGG') ? 'selected' : ''; ?>>ENGG</option>
-                    <option value="ACCTS" <?php echo ($department == 'ACCTS') ? 'selected' : ''; ?>>ACCTS</option>
-                    <option value="ELECT" <?php echo ($department == 'ELECT') ? 'selected' : ''; ?>>ELECT</option>
-                    <option value="OPTG" <?php echo ($department == 'OPTG') ? 'selected' : ''; ?>>OPTG</option>
-                    <option value="PERS" <?php echo ($department == 'PERS') ? 'selected' : ''; ?>>PERS</option>
-                    <option value="SECURITY" <?php echo ($department == 'SECURITY') ? 'selected' : ''; ?>>SECURITY
-                    </option>
-                    <option value="AUDIT" <?php echo ($department == 'AUDIT') ? 'selected' : ''; ?>>AUDIT</option>
-                    <option value="MED" <?php echo ($department == 'MED') ? 'selected' : ''; ?>>MED</option>
-                    <option value="COMM" <?php echo ($department == 'COMM') ? 'selected' : ''; ?>>COMM</option>
-                    <option value="GA" <?php echo ($department == 'GA') ? 'selected' : ''; ?>>GA</option>
-                    <option value="MECH" <?php echo ($department == 'MECH') ? 'selected' : ''; ?>>MECH</option>
-                    <option value="SAFETY" <?php echo ($department == 'SAFETY') ? 'selected' : ''; ?>>SAFETY</option>
-                    <option value="STORES" <?php echo ($department == 'STORES') ? 'selected' : ''; ?>>STORES</option>
-                    <option value="RRC" <?php echo ($department == 'RRC') ? 'selected' : ''; ?>>RRC</option>
-                    <option value="WAGON" <?php echo ($department == 'WAGON') ? 'selected' : ''; ?>>WAGON</option>
-                    <option value="WELFARE" <?php echo ($department == 'WELFARE') ? 'selected' : ''; ?>>WELFARE</option>
-
+                    <?php foreach ($departments as $department_option): ?>
+                        <option value="<?php echo $department_option['name']; ?>" <?php echo ($department == $department_option['name']) ? 'selected' : ''; ?>>
+                            <?php echo $department_option['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="input_box">
@@ -307,14 +334,11 @@ $conn->close();
                 <select class="py-2 px-2" id="operator" name="OPERATOR" required>
                     <option value="default" <?php if ($operator == 'default')
                         echo 'selected'; ?>>Select operator</option>
-                    <option value="Jio" <?php if ($operator == 'JIO')
-                        echo 'selected'; ?>>Jio</option>
-                    <option value="Airtel" <?php if ($operator == 'Airtel')
-                        echo 'selected'; ?>>Airtel</option>
-                    <option value="VI" <?php if ($operator == 'VI')
-                        echo 'selected'; ?>>VI</option>
-                    <option value="BSNL" <?php if ($operator == 'BSNL')
-                        echo 'selected'; ?>>BSNL</option>
+                    <?php foreach ($operators as $operator_option): ?>
+                        <option value="<?php echo $operator_option['name']; ?>" <?php echo ($operator == $operator_option['name']) ? 'selected' : ''; ?>>
+                            <?php echo $operator_option['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="input_box">

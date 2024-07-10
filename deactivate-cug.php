@@ -72,8 +72,6 @@
                             <th>Operator</th>
                             <th>Plan</th>
                             <th>Status</th>
-                            <th>Activate from</th>
-                            <th>Inactive at</th>
                         </tr>
                     </thead>
                     <tbody>";
@@ -89,8 +87,8 @@
             echo "<td>" . $row["operator"] . "</td>";
             echo "<td>" . $row["plan"] . "</td>";
             echo "<td>" . $row["status"] . "</td>";
-            echo "<td>" . $row["activate_from"] . "</td>";
-            echo "<td>" . $row["inactive_at"] . "</td>";
+            // echo "<td>" . $row["activate_from"] . "</td>";
+            // echo "<td>" . $row["inactive_at"] . "</td>";
             echo "</tr>
                 </tbody>
                 </table>";
