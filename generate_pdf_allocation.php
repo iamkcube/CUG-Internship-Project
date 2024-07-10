@@ -2,6 +2,16 @@
 require('fpdf186/fpdf.php'); // Ensure the path to fpdf.php is correct
 include 'db_connect.php';
 
+// Fetch GST percentages from database
+$gst_query = "SELECT cgst_percentage, sgst_percentage FROM gst LIMIT 1";
+$gst_result = $conn->query($gst_query);
+if (!$gst_result) {
+    die("Failed to fetch GST percentages: " . $conn->error);
+}
+$gst_data = $gst_result->fetch_assoc();
+$cgst_percentage = $gst_data['cgst_percentage'];
+$sgst_percentage = $gst_data['sgst_percentage'];
+
 class PDF extends FPDF
 {
     // Page header
@@ -80,12 +90,12 @@ class PDF extends FPDF
 
 
 
-    // Calculate total payable amount including CGST and SGST
-    function CalculateTotalPayable($data)
+    // Calculate total payable amount including CGST and SGST using fetched percentages
+    function CalculateTotalPayable($data, $cgst_percentage, $sgst_percentage)
     {
         $total_amount = array_sum(array_column($data, 'total_amount'));
-        $cgst = $total_amount * 0.09; // Assuming CGST rate is 9%
-        $sgst = $total_amount * 0.09; // Assuming SGST rate is 9%
+        $cgst = ($total_amount * $cgst_percentage) / 100;
+        $sgst = ($total_amount * $sgst_percentage) / 100;
         $total_payable = $total_amount + $cgst + $sgst;
 
         return [
@@ -155,8 +165,8 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
 $pdf->BasicTable($header, $data);
 
-// Calculate total payable amounts
-$totals = $pdf->CalculateTotalPayable($data);
+// Calculate total payable amounts using fetched GST percentages
+$totals = $pdf->CalculateTotalPayable($data, $cgst_percentage, $sgst_percentage);
 
 // Render totals and summary
 $pdf->RenderTotals($totals);
