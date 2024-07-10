@@ -162,7 +162,7 @@ $conn->close();
                 },
                 fontFamily: {
                     body: [
-                        "Raleway",
+                        "Nunito Sans",
                         "ui-sans-serif",
                         "system-ui",
                         "-apple-system",
@@ -179,7 +179,7 @@ $conn->close();
                         "Noto Color Emoji",
                     ],
                     sans: [
-                        "Raleway",
+                        "Nunito Sans",
                         "ui-sans-serif",
                         "system-ui",
                         "-apple-system",
@@ -218,7 +218,7 @@ $conn->close();
             <h2 class="heading">Allotment Of New Cug</h2>
         </div>
         <?php if (isset($_SESSION['errors'])): ?>
-            <div class="session-message">
+            <div class="session-message error">
                 <?php foreach ($_SESSION['errors'] as $error): ?>
                     <p><?php echo $error; ?></p>
                 <?php endforeach; ?>
@@ -227,7 +227,7 @@ $conn->close();
         <?php endif; ?>
 
         <?php if (isset($_SESSION['success'])): ?>
-            <div class="session-message">
+            <div class="session-message success">
                 <p><?php echo $_SESSION['success']; ?></p>
                 <?php unset($_SESSION['success']); ?>
             </div>

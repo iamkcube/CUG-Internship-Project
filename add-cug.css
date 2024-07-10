@@ -180,3 +180,16 @@ select
             var(--accent-color-hover) 20%,
             white) !important;
 }
+
+.success
+{
+    color: white;
+    background-color: green;
+}
+
+.error
+{
+    color: whitesmoke;
+    background-color: red;
+    border: 1px solid red;
+}

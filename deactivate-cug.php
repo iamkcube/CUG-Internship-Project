@@ -44,7 +44,7 @@
         $cug_no = $_POST['cugNo'];
 
         // Select the record to display it
-        $select_sql = "SELECT * FROM cugdetails_transaction WHERE cug_number = ?";
+        $select_sql = "SELECT * FROM cugdetails WHERE cug_number = ?";
         $stmt = $conn->prepare($select_sql);
         $stmt->bind_param("s", $cug_no);
         $stmt->execute();
