@@ -1,0 +1,173 @@
+/* Header styles */
+.header-top
+{
+	background-color: #4c4caf;
+	padding: 1rem 0;
+	text-align: center;
+}
+
+.header-top a
+{
+	text-decoration: none !important;
+
+}
+
+.header-top h1
+{
+	margin: 0;
+	font-size: 1.8rem;
+	text-transform: none;
+	color: white !important;
+}
+
+.header-top :nth-child(1)
+{
+	text-transform: uppercase;
+}
+
+main
+{
+	background-image: url(images/banner.webp);
+	background-repeat: no-repeat;
+	background-size: cover;
+	min-height: 90svh;
+	min-height: 90vh;
+}
+
+/* Services section */
+#bill-details
+{
+	/* color: var(--white); */
+	padding: 3em;
+}
+
+.heading-container
+{
+	display: grid;
+	grid-template-columns: 2.5rem 1fr 2.5rem;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-block-end: 1rem;
+}
+
+.back-btn
+{
+	padding: 0.5rem;
+	width: 2.5rem;
+	border: none;
+	cursor: pointer;
+	border-radius: 999px;
+	background-color: var(--white);
+	aspect-ratio: 1;
+}
+
+
+.heading
+{
+	font-size: 2.5rem;
+	font-weight: bold;
+	text-align: left;
+	color: var(--white);
+	text-align: center;
+	justify-self: center;
+}
+
+table
+{
+	width: 100%;
+}
+
+table,
+th
+{
+	border: none;
+	border-radius: 4px;
+	background-color: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(4px) brightness(75%);
+	font-weight: bold;
+}
+
+th,
+td
+{
+	border: none;
+	padding: 8px;
+	text-align: left;
+}
+
+th
+{
+	text-align: center;
+	font-size: 1.25rem;
+	background-color: rgba(255, 255, 255, 1);
+	font-weight: 900;
+}
+
+tr
+{
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+tr:nth-child(even)
+{
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+tr:hover
+{
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.transparent-row
+{
+	height: 1.5rem;
+	background-color: transparent !important;
+	border: none;
+}
+
+.action-button
+{
+	display: block;
+	padding: 0.75em 2em;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	margin-inline: auto;
+	margin-block-start: 1rem;
+	background-image: linear-gradient(to right,
+			var(--accent-color),
+			var(--accent-color-hover),
+			var(--accent-color) 80%);
+	background-size: 200%;
+	cursor: pointer;
+	transition: background-position 250ms ease-in-out;
+	background-position: 0% 0%;
+}
+
+.action-button:hover
+{
+	background-position: 99% 99%;
+}
+
+
+/* Footer styles */
+footer
+{
+	background-color: black;
+	color: white;
+	padding: 20px 0;
+	text-align: center;
+}
+
+.footer-links a
+{
+	color: white;
+	text-decoration: none;
+	margin: 0 10px;
+}
+
+.footer-links a:hover
+{
+	text-decoration: underline;
+}

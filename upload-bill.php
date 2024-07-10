@@ -124,6 +124,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $bill_year = $bill_year_from_form;
                                 $bill_month = $bill_month_from_form;
 
+                                // Skip the row if CUG number is null
+                                if (empty($cug_number)) {
+                                    continue;
+                                }
+
                                 // Prepare the SQL statement
                                 $sql = "INSERT INTO bills (cug_number, periodic_charge, usage_amount, data_amount, voice, video, sms, vas, bill_year, bill_month) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
