@@ -10,11 +10,12 @@ class PDF extends FPDF
         // Arial bold 15
         $this->SetFont('Arial', 'B', 15);
         // Title
-        $this->Cell(0, 10, 'East Coast Railway, Bhubaneswar', 0, 1, 'C');
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, 'Consolidated CUG Bill', 0, 1, 'C');
+        $this->Cell(0, 6, 'East Coast Railway', 0, 1, 'C');
+        $this->Cell(0, 6, 'Bhubaneswar', 0, 1, 'C');
+        $this->Cell(0, 6, 'Consolidated CUG Bill', 0, 1, 'C');
         $this->Ln(10); // Line break
     }
+
 
     // Page footer
     function Footer()
@@ -57,22 +58,27 @@ class PDF extends FPDF
         return $data;
     }
 
-    // Generate table
+    // Generate table with headers having top and bottom borders
     function BasicTable($header, $data)
     {
-        // Header
+        // Header with borders
+        $this->SetFont('Arial', 'B', 12);
         foreach ($header as $col) {
-            $this->Cell(60, 7, $col, 1);
+            // Add border to top and bottom of each header cell
+            $this->Cell(60, 7, $col, 'TB', 0, 'C');
         }
         $this->Ln();
-        // Data
+
+        // Data rows without borders
+        $this->SetFont('Arial', '', 12);
         foreach ($data as $row) {
-            $this->Cell(60, 6, $row['allocation'], 1);
-            $this->Cell(60, 6, $row['bill_dates'], 1);
-            $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 1);
-            $this->Ln();
+            $this->Cell(60, 6, $row['allocation'], 0, 0, 'C');
+            $this->Cell(60, 6, $row['bill_dates'], 0, 0, 'C');
+            $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 0, 1, 'C');
         }
     }
+
+
 
     // Calculate total payable amount including CGST and SGST
     function CalculateTotalPayable($data)
@@ -89,11 +95,59 @@ class PDF extends FPDF
             'total_payable' => $total_payable
         ];
     }
+
+    // Render total amounts
+    function RenderTotals($totals)
+    {
+        $this->Ln(3); // Line break before totals
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(180, 0, '', 'T', 1); // Line
+        $this->Cell(120, 10, 'Grand Total:', 0, 0, 'R');
+        $this->Cell(60, 10, 'Rs. ' . number_format($totals['total_amount'], 2), 0, 1, 'R');
+
+        $this->Cell(120, 10, 'CGST Rs.:', 0, 0, 'R');
+        $this->Cell(60, 10, 'Rs. ' . number_format($totals['cgst'], 2), 0, 1, 'R');
+
+        $this->Cell(120, 10, 'SGST Rs.:', 0, 0, 'R');
+        $this->Cell(60, 10, 'Rs. ' . number_format($totals['sgst'], 2), 0, 1, 'R');
+
+        
+        $pageWidth = $this->getPageWidth(); // Get the width of the page
+        $lineLength = 100; // Length of the line in millimeters
+        $lineHeight = 3; // Height of the line in millimeters
+        $linePositionX = $pageWidth - $lineLength - 10; // X position to start the line (adjust as needed)
+        $this->SetLineWidth(0.8); // Set line width to 0.8mm (adjust as needed)
+        $this->Line($linePositionX, $this->GetY(), $linePositionX + $lineLength, $this->GetY()); // Draw a line
+
+        $this->Cell(120, 10, 'Total Payable:', 0, 0, 'R');
+        $this->Cell(60, 10, 'Rs. ' . number_format($totals['total_payable'], 2), 0, 1, 'R');
+    }
+
+    // Render summary text
+    function RenderSummary($totals)
+    {
+        $this->Ln(10); // Line break before summary
+        $this->SetFont('Arial', '', 12);
+        $lineheight = 6; // Adjust line height as needed
+        $this->MultiCell(0, $lineheight, "Passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only)");
+    }
+
+
+    // Render signature space
+    function RenderSignature()
+    {
+        $this->Ln(20); // Line break before signature
+        $this->SetFont('Arial', '', 12);
+        $lineheight = 6; // Adjust line height as needed
+        $this->Cell(0, $lineheight, 'For PCSTE/ECOR', 0, 1, 'R');
+        $this->Cell(0, $lineheight, 'ECo Rly, Bhubaneswar', 0, 1, 'R');
+    }
+
 }
 
 $pdf = new PDF();
 // Column headings
-$header = ['Allocation', 'Bill Dates', 'Amount'];
+$header = ['Allocation', 'Bill Dates', 'Amount (Rs.)'];
 // Data loading
 $data = $pdf->LoadData($conn);
 
@@ -104,17 +158,18 @@ $pdf->BasicTable($header, $data);
 // Calculate total payable amounts
 $totals = $pdf->CalculateTotalPayable($data);
 
-// Output the table with totals
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(0, 10, 'Total Payable Amount: Rs. ' . number_format($totals['total_payable'], 2), 0, 1);
-$pdf->SetFont('Arial', '', 12);
-$pdf->MultiCell(0, 10, "Passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only), including CGST: Rs. " . number_format($totals['cgst'], 2) . " and SGST: Rs. " . number_format($totals['sgst'], 2));
+// Render totals and summary
+$pdf->RenderTotals($totals);
+$pdf->RenderSummary($totals);
+$pdf->RenderSignature();
 
 // Output PDF to browser
 $pdf->Output('D', 'consolidated_cug_allocation_bill.pdf');
 
 // Close database connection
 $conn->close();
+
+
 
 // Function to convert number to words (Indian numbering system)
 function convert_number_to_words($number)
