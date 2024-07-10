@@ -1,28 +1,28 @@
 /* Header styles */
 .header-top
 {
-    background-color: #4c4caf;
-    padding: 1rem 0;
-    text-align: center;
+	background-color: #4c4caf;
+	padding: 1rem 0;
+	text-align: center;
 }
 
 .header-top a
 {
-    text-decoration: none !important;
+	text-decoration: none !important;
 
 }
 
 .header-top h1
 {
-    margin: 0;
-    font-size: 1.8rem;
-    text-transform: none;
-    color: white !important;
+	margin: 0;
+	font-size: 1.8rem;
+	text-transform: none;
+	color: white !important;
 }
 
 .header-top :nth-child(1)
 {
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 main
@@ -86,6 +86,7 @@ th
 	border-radius: 4px;
 	background-color: rgba(255, 255, 255, 0.1);
 	backdrop-filter: blur(4px) brightness(75%);
+	font-weight: bold;
 }
 
 th,
@@ -99,21 +100,56 @@ td
 th
 {
 	text-align: center;
+	font-size: 1.25rem;
+	background-color: rgba(255, 255, 255, 1);
+	font-weight: 900;
 }
 
 tr
 {
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.6);
 }
 
 tr:nth-child(even)
 {
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 tr:hover
 {
-	background-color: rgba(255, 255, 255, 0.3);
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.transparent-row
+{
+	height: 1.5rem;
+	background-color: transparent !important;
+	border: none;
+}
+
+
+.action-button
+{
+	display: block;
+	padding: 0.75em 2em;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	margin-inline: auto;
+	margin-block-start: 1rem;
+	background-image: linear-gradient(to right,
+			var(--accent-color),
+			var(--accent-color-hover),
+			var(--accent-color) 80%);
+	background-size: 200%;
+	cursor: pointer;
+	transition: background-position 250ms ease-in-out;
+	background-position: 0% 0%;
+}
+
+.action-button:hover
+{
+	background-position: 99% 99%;
 }
 
 

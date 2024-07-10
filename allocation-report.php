@@ -80,6 +80,8 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
                     echo '</tr>';
                 }
 
+                echo '<tr class="transparent-row"><td colspan="3"><hr></td></tr>';
+
                 $grand_total_cgst = ($grand_total_amount * $cgst_percentage) / 100;
                 $grand_total_sgst = ($grand_total_amount * $sgst_percentage) / 100;
                 $grand_total_payable = $grand_total_amount + $grand_total_cgst + $grand_total_sgst;
@@ -123,17 +125,22 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
         </div>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function ()
+        {
             // Role based Redirection -------------------------
             const redirectButton = document.getElementById("roleRedirectButton");
             const userRole = redirectButton.getAttribute("data-role");
 
-            redirectButton.addEventListener("click", function () {
-                if (userRole === 'admin') {
+            redirectButton.addEventListener("click", function ()
+            {
+                if (userRole === 'admin')
+                {
                     window.location.href = 'admin-page.html';
-                } else if (userRole === 'dealer') {
+                } else if (userRole === 'dealer')
+                {
                     window.location.href = 'dealer-page.html';
-                } else {
+                } else
+                {
                     alert("Error: Unexpected role. Please login again.");
                 }
             });
