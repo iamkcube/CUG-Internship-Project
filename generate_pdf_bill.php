@@ -200,8 +200,8 @@ $pdf->RenderTotals($totals);
 $pdf->RenderSummary($totals);
 $pdf->RenderSignature();
 
-// Output the PDF (download or display)
-$pdf->Output();
+// Output PDF to browser
+$pdf->Output('D', 'consolidated_cug_unit_bill.pdf');
 
 
 // Close database connection
