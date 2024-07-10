@@ -91,7 +91,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 $operator = $rowData[0][8];
                                 $plan = $rowData[0][9];
                                 $status = 'Active'; // Default status
-
+            
                                 // Skip the row if CUG number is null
                                 if (empty($cug_number)) {
                                     continue;
@@ -121,7 +121,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                 try {
                                     $stmt->execute();
                                 } catch (Exception $e) {
-                                    echo '<div class="message error">Exception caught while updating cugdetails table: ' . $e->getMessage() . '</div>';
+                                    if (strlen((string) $cug_number) != 10) {
+                                        echo '<div class="message error"> CUG No. ' . $cug_number . ' has ' . strlen((string) $cug_number) . ' digits (should be 10 digits)</div>';
+                                    } else {
+                                        echo '<div class="message error">Error : ' . $e->getMessage() . ' for CUG No. ' . $cug_number . '</div>';
+                                    }
                                     continue; // Skip to the next iteration of the loop
                                 }
 
@@ -185,6 +189,30 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
             <p>Developed by ECS.</p>
         </div>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function ()
+        {
+            const errorMessages = document.querySelectorAll(".error");
+            const moreButton = document.createElement("button");
+            moreButton.textContent = "More Errors";
+            moreButton.classList.add("more-button");
+            let firstFiveErrors = Array.from(errorMessages).slice(0, 5);
+            let remainingErrors = Array.from(errorMessages).slice(5);
+
+            remainingErrors.forEach(error => error.classList.add("hidden"));
+
+            if (errorMessages.length > 5)
+            {
+                document.querySelector("#create-dealer").appendChild(moreButton);
+            }
+
+            moreButton.addEventListener("click", function ()
+            {
+                remainingErrors.forEach(error => error.classList.remove("hidden"));
+                moreButton.remove();
+            });
+        });
+    </script>
 </body>
 
 </html>
