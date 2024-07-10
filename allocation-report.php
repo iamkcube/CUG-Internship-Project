@@ -111,7 +111,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             ?>
 
             <form method="post" action="generate_pdf_allocation.php">
-                <button type="submit" name="generate_pdf">Generate PDF</button>
+                <button class="action-button" type="submit" name="generate_pdf">Generate PDF</button>
             </form>
         </section>
     </main>
