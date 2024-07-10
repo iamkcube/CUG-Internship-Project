@@ -344,3 +344,25 @@ footer
 {
     text-decoration: underline;
 }
+
+table
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+thead
+{
+	position: sticky;
+	top: 0;
+	background-color: #d1b8b8;
+	z-index: 1;
+}
+
+th,
+td
+{
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #ece5e5;
+}
+
