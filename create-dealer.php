@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssss", $username, $email, $hashed_password, $contact, $address, $created_at);
 
     if ($stmt->execute()) {
-        $_SESSION['message'] = "Dealer $username created successfully!";
+        $_SESSION['message'] = "Dealer $username with email: '$email' & password: '$password' created successfully!";
     } else {
         $_SESSION['message'] = "Error: " . $stmt->error;
     }
@@ -57,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <header>
-    <div class="header-top">
-			<a href="./">
-				<h1>East Coast Railway</h1>
-				<h1>Closed User Group</h1>
-			</a>
-		</div>
+        <div class="header-top">
+            <a href="./">
+                <h1>East Coast Railway</h1>
+                <h1>Closed User Group</h1>
+            </a>
+        </div>
         <!-- <nav>
             <ul>
                 <li><a href="index.html">Admin Page</a></li>

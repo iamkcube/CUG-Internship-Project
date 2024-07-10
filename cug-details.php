@@ -26,7 +26,7 @@
                         src="icon/back-button.webp" alt="back button"></button>
                 <h2 class="heading">CUG Details</h2>
                 <div class="search-bar-container">
-                    <input type="text" id="search-bar" placeholder="Search..." onkeyup="filterTable()">
+                    <input type="text" id="search-bar" placeholder="Search here" onkeyup="filterTable()">
                 </div>
             </div>
             <div class="table-container">
