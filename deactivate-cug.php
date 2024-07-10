@@ -132,11 +132,11 @@
                     if ($stmt_update->execute() && $stmt_delete->execute()) {
                         // Commit transaction
                         $conn->commit();
-                        $message = "CUG number $cug_no deactivated and deleted successfully.";
+                        $message = "CUG number $cug_no deactivated successfully.";
                     } else {
                         // Rollback transaction if either statement fails
                         $conn->rollback();
-                        $message = "Error deactivating and deleting CUG number.";
+                        $message = "Error deactivating CUG number.";
                     }
 
                 } catch (Exception $e) {
