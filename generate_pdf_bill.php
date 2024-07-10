@@ -2,17 +2,29 @@
 require('fpdf186/fpdf.php'); // Ensure the path to fpdf.php is correct
 include 'db_connect.php';
 
+// Fetch GST percentages from database
+$gst_query = "SELECT cgst_percentage, sgst_percentage FROM gst LIMIT 1";
+$gst_result = $conn->query($gst_query);
+if (!$gst_result) {
+    die("Failed to fetch GST percentages: " . $conn->error);
+}
+$gst_data = $gst_result->fetch_assoc();
+$cgst_percentage = $gst_data['cgst_percentage'];
+$sgst_percentage = $gst_data['sgst_percentage'];
+
 class PDF extends FPDF
 {
+    private $unitTotal; // Variable to hold unit total
+
     // Page header
     function Header()
     {
         // Arial bold 15
         $this->SetFont('Arial', 'B', 15);
         // Title
-        $this->Cell(0, 10, 'East Coast Railway, Bhubaneswar', 0, 1, 'C');
-        $this->SetFont('Arial', '', 12);
-        $this->Cell(0, 10, 'Consolidated CUG Bill', 0, 1, 'C');
+        $this->Cell(0, 6, 'East Coast Railway', 0, 1, 'C');
+        $this->Cell(0, 6, 'Bhubaneswar', 0, 1, 'C');
+        $this->Cell(0, 6, 'Consolidated CUG Bill', 0, 1, 'C');
         $this->Ln(10); // Line break
     }
 
@@ -43,7 +55,7 @@ class PDF extends FPDF
             GROUP BY 
                 c.unit, c.department
             ORDER BY 
-                c.unit, c.department;
+                c.unit;
         ";
 
         $result = $conn->query($query);
@@ -58,36 +70,58 @@ class PDF extends FPDF
         return $data;
     }
 
-    // Generate table
-    function BasicTable($header, $data)
+    // Generate table with headers having top and bottom borders
+    function GenerateTable($header, $data)
     {
-        $current_unit = '';
-        // Header
+        // Header with borders
+        $this->SetFont('Arial', 'B', 12);
         foreach ($header as $col) {
-            $this->Cell(60, 7, $col, 1);
+            // Add border to top and bottom of each header cell
+            $this->Cell(60, 7, $col, 'TB', 0, 'C');
         }
-        $this->Ln();
-        // Data
+        $this->Ln(3);
+
+        // Data rows without borders
+        $this->SetFont('Arial', '', 12);
+        $currentUnit = '';
         foreach ($data as $row) {
-            if ($current_unit != $row['unit']) {
-                $current_unit = $row['unit'];
+            if ($currentUnit != $row['unit']) {
+                if ($currentUnit != '') {
+                    // Add unit totals if it's not the first unit
+                    $this->Ln(3); // Line break before unit totals
+                    $this->SetFont('Arial', 'B', 12);
+                    $this->Cell(120, 6, 'Unit Total:', 0, 0, 'R');
+                    $this->Cell(60, 6, 'Rs. ' . number_format($this->unitTotal, 2), 0, 1, 'R');
+                }
+                // New unit header
+                $this->Ln(3); // Add spacing between units
                 $this->SetFont('Arial', 'B', 12);
-                $this->Cell(0, 7, 'Unit: ' . $current_unit, 0, 1);
-                $this->SetFont('Arial', '', 12);
+                $this->Cell(180, 0, '', 'T', 1); // Line
+                $this->Cell(0, 8, 'Unit: ' . $row['unit'], 0, 1);
+                $currentUnit = $row['unit'];
+                $this->unitTotal = 0; // Reset unit total
             }
-            $this->Cell(60, 6, $row['department'], 1);
-            $this->Cell(60, 6, $row['bill_dates'], 1);
-            $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 1);
-            $this->Ln();
+            // Department details
+            $this->SetFont('Arial', '', 12);
+            $this->Cell(60, 6, $row['department'], 0, 0, 'C');
+            $this->Cell(60, 6, $row['bill_dates'], 0, 0, 'C');
+            $this->Cell(60, 6, 'Rs. ' . number_format($row['total_amount'], 2), 0, 1, 'C');
+            $this->unitTotal += $row['total_amount']; // Accumulate unit total
         }
+
+        // Final unit total for the last unit
+        $this->Ln(3); // Line break before unit totals
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(120, 6, 'Unit Total:', 0, 0, 'R');
+        $this->Cell(60, 6, 'Rs. ' . number_format($this->unitTotal, 2), 0, 1, 'R');
     }
 
-    // Calculate total payable amount including CGST and SGST
-    function CalculateTotalPayable($data)
+    // Calculate total payable amount including CGST and SGST using fetched percentages
+    function CalculateTotalPayable($data, $cgst_percentage, $sgst_percentage)
     {
         $total_amount = array_sum(array_column($data, 'total_amount'));
-        $cgst = $total_amount * 0.09; // Assuming CGST rate is 9%
-        $sgst = $total_amount * 0.09; // Assuming SGST rate is 9%
+        $cgst = ($total_amount * $cgst_percentage) / 100;
+        $sgst = ($total_amount * $sgst_percentage) / 100;
         $total_payable = $total_amount + $cgst + $sgst;
 
         return [
@@ -97,32 +131,82 @@ class PDF extends FPDF
             'total_payable' => $total_payable
         ];
     }
+
+    // Render totals
+    function RenderTotals($totals)
+    {
+        $this->Ln(3); // Line break before totals
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(180, 0, '', 'T', 1); // Line
+        $this->Cell(120, 8, 'Grand Total:', 0, 0, 'R');
+        $this->Cell(60, 8, 'Rs. ' . number_format($totals['total_amount'], 2), 0, 1, 'R');
+
+        $this->Cell(120, 8, 'CGST Rs.:', 0, 0, 'R');
+        $this->Cell(60, 8, 'Rs. ' . number_format($totals['cgst'], 2), 0, 1, 'R');
+
+        $this->Cell(120, 8, 'SGST Rs.:', 0, 0, 'R');
+        $this->Cell(60, 8, 'Rs. ' . number_format($totals['sgst'], 2), 0, 1, 'R');
+
+        $pageWidth = $this->getPageWidth(); // Get the width of the page
+        $lineLength = 100; // Length of the line in millimeters
+        $lineHeight = 3; // Height of the line in millimeters
+        $linePositionX = $pageWidth - $lineLength - 10; // X position to start the line (adjust as needed)
+        $this->SetLineWidth(0.8); // Set line width to 0.8mm (adjust as needed)
+        $this->Line($linePositionX, $this->GetY(), $linePositionX + $lineLength, $this->GetY()); // Draw a line
+
+        $this->Cell(120, 10, 'Total Payable:', 0, 0, 'R');
+        $this->Cell(60, 10, 'Rs. ' . number_format($totals['total_payable'], 2), 0, 1, 'R');
+    }
+
+    // Render summary text
+    function RenderSummary($totals)
+    {
+        $this->Ln(10); // Line break before summary
+        $this->SetFont('Arial', '', 12);
+        $lineheight = 6; // Adjust line height as needed
+        $this->MultiCell(0, $lineheight, "Voucher No: ECoR/S&T/BBS/TELE/CUG");
+        $this->MultiCell(0, $lineheight, "Bill passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA&CAO/ECOR/BBS along with individual Bills and Dept. summary for audit arranging payment through cheque in favour of Reliance JIO Infocomm Ltd, Mumbai Fort, Mumbai, through NEFT/RTGS. Certified that amount drawn through this bill was not drawn priviously of will not be drawn in future. ");
+    }
+
+    // Render signature space
+    function RenderSignature()
+    {
+        $this->Ln(20); // Line break before signature
+        $this->SetFont('Arial', '', 12);
+        $lineheight = 6; // Adjust line height as needed
+        $this->Cell(0, $lineheight, 'Dy. CSTE/Tele & NW/ECoR/ BBS', 0, 1, 'R');
+        $this->Cell(0, $lineheight, 'For PCSTE/ECOR/BBS', 0, 1, 'R');
+    }
 }
 
+// Instantiate PDF and set properties
 $pdf = new PDF();
-// Column headings
-$header = ['Department', 'Bill Dates', 'Amount'];
-// Data loading
+$pdf->SetTitle('Consolidated CUG Bill');
+$pdf->SetAutoPageBreak(true, 20); // Enable auto page break with a margin of 20mm
+
+// Define column headers for the table
+$header = array('Department', 'Date', 'Amount (Rs.)');
+
+// Load data from the database
 $data = $pdf->LoadData($conn);
 
+// Generate the PDF content
 $pdf->AddPage();
-$pdf->SetFont('Arial', '', 12);
-$pdf->BasicTable($header, $data);
+$pdf->GenerateTable($header, $data);
 
-// Calculate total payable amounts
-$totals = $pdf->CalculateTotalPayable($data);
-
-// Output the table with totals
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(0, 10, 'Total Payable Amount: Rs. ' . number_format($totals['total_payable'], 2), 0, 1);
-$pdf->SetFont('Arial', '', 12);
-$pdf->MultiCell(0, 10, "Passed for Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only) and forwarded to FA & CAO IX/BBS for audit and arranging the payment of net amount of Rs. " . number_format($totals['total_payable'], 2) . " (Rupees " . convert_number_to_words($totals['total_payable']) . " Only), including CGST: Rs. " . number_format($totals['cgst'], 2) . " and SGST: Rs. " . number_format($totals['sgst'], 2));
+// Calculate and render totals, summary, and signature
+$totals = $pdf->CalculateTotalPayable($data, $cgst_percentage, $sgst_percentage);
+$pdf->RenderTotals($totals);
+$pdf->RenderSummary($totals);
+$pdf->RenderSignature();
 
 // Output PDF to browser
 $pdf->Output('D', 'consolidated_cug_unit_bill.pdf');
 
+
 // Close database connection
 $conn->close();
+
 
 // Function to convert number to words (Indian numbering system)
 function convert_number_to_words($number)
