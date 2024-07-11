@@ -1,10 +1,12 @@
 <?php
-session_start();
-$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 
 // Include database connection file
-include 'db_connect.php';
 
+include 'authenticate.php';
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
+checkUser($role);
+
+include 'db_connect.php';
 // Load the Excel workbook
 require 'phpspreadsheet/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -236,10 +238,10 @@ $conn->close();
             {
                 if (userRole === 'admin')
                 {
-                    window.location.href = 'admin-page.html';
+                    window.location.href = 'admin-page.php';
                 } else if (userRole === 'dealer')
                 {
-                    window.location.href = 'dealer-page.html';
+                    window.location.href = 'dealer-page.php';
                 } else
                 {
                     alert("Error: Unexpected role. Please login again.");

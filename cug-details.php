@@ -1,3 +1,8 @@
+<?php
+include 'authenticate.php';
+checkUser("admin");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +27,7 @@
     <main>
         <section id="cug-details">
             <div class="heading-container">
-                <button class="back-btn" onclick="window.location.href = 'admin-page.html'"><img
+                <button class="back-btn" onclick="window.location.href = 'admin-page.php'"><img
                         src="icon/back-button.webp" alt="back button"></button>
                 <h2 class="heading">CUG Details</h2>
                 <div class="search-bar-container">

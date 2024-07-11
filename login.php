@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
 
         // Redirect based on role
         if ($user['role'] == 'admin') {
-            header("Location: admin-page.html");
+            header("Location: admin-page.php");
         } else if ($user['role'] == 'dealer') {
-            header("Location: dealer-page.html");
+            header("Location: dealer-page.php");
         } else {
             // Unexpected role
             echo "Error: Unexpected role.";

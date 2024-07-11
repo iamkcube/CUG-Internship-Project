@@ -1,6 +1,11 @@
 <?php
 // Start session at the beginning
 session_start();
+
+include 'authenticate.php';
+checkUser("admin");
+
+
 include 'db_connect.php';
 
 // Load the Excel workbook
@@ -146,7 +151,7 @@ $conn->close();
     <main>
         <section id="create-dealer">
             <div class="heading-container">
-                <button class="back-btn" onclick="window.location.href = './admin-page.html'">
+                <button class="back-btn" onclick="window.location.href = './admin-page.php'">
                     <img src="icon/back-button.webp" alt="back button">
                 </button>
                 <h2 class="heading">Upload Bill</h2>

@@ -1,3 +1,8 @@
+<?php
+include 'authenticate.php';
+checkUser("dealer");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +25,7 @@
         </div>
     </header>
     <div class="heading-container">
-        <button class="back-btn" onclick="window.location.href = './dealer-page.html'"><img src="icon/back-button.webp"
+        <button class="back-btn" onclick="window.location.href = './dealer-page.php'"><img src="icon/back-button.webp"
                 alt="back button"></button>
         <h2 class="heading">Deactivate CUG</h2>
     </div>

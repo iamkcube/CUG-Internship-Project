@@ -1,6 +1,8 @@
 <?php
-session_start();
+
+include 'authenticate.php';
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
+checkUser($role);
 
 // Include database connection script
 include 'db_connect.php';
@@ -416,10 +418,10 @@ $conn->close();
             {
                 if (userRole === 'admin')
                 {
-                    window.location.href = 'admin-page.html';
+                    window.location.href = 'admin-page.php';
                 } else if (userRole === 'dealer')
                 {
-                    window.location.href = 'dealer-page.html';
+                    window.location.href = 'dealer-page.php';
                 } else
                 {
                     alert("Error: Unexpected role. Please login again.");

@@ -4,6 +4,9 @@ session_start(); // Start the session
 // Set the default time zone
 date_default_timezone_set('Asia/Kolkata');
 
+include 'authenticate.php';
+checkUser("admin");
+
 // Include database connection script
 include 'db_connect.php';
 
@@ -92,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<main>
 		<section id="create-dealer">
 			<div class="heading-container">
-				<button class="back-btn" onclick="window.location.href = './admin-page.html'"><img
+				<button class="back-btn" onclick="window.location.href = './admin-page.php'"><img
 						src="https://img.icons8.com/ios/32/long-arrow-left.png" alt="back button"></button>
 				<h2 class="heading">Add New Bill</h2>
 			</div>

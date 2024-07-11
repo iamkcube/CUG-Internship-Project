@@ -1,6 +1,9 @@
 <?php
-session_start();
+
+include 'authenticate.php';
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
+checkUser($role);
+
 ?>
 
 <!DOCTYPE html>
@@ -168,17 +171,22 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
         </div>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function ()
+        {
             // Role based Redirection -------------------------
             const redirectButton = document.getElementById("roleRedirectButton");
             const userRole = redirectButton.getAttribute("data-role");
 
-            redirectButton.addEventListener("click", function () {
-                if (userRole === 'admin') {
-                    window.location.href = 'admin-page.html';
-                } else if (userRole === 'dealer') {
-                    window.location.href = 'dealer-page.html';
-                } else {
+            redirectButton.addEventListener("click", function ()
+            {
+                if (userRole === 'admin')
+                {
+                    window.location.href = 'admin-page.php';
+                } else if (userRole === 'dealer')
+                {
+                    window.location.href = 'dealer-page.php';
+                } else
+                {
                     alert("Error: Unexpected role. Please login again.");
                 }
             });
@@ -188,11 +196,13 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             const month = urlParams.get('month');
             const year = urlParams.get('year');
 
-            if (month) {
+            if (month)
+            {
                 document.getElementById('month').value = month;
             }
 
-            if (year) {
+            if (year)
+            {
                 document.getElementById('year').value = year;
             }
         });

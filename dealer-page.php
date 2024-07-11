@@ -1,3 +1,8 @@
+<?php
+include 'authenticate.php';
+checkUser("dealer");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>

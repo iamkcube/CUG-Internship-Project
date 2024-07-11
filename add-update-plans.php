@@ -1,4 +1,7 @@
 <?php
+include 'authenticate.php';
+checkUser("admin");
+
 // Include database connection file
 include 'db_connect.php';
 
@@ -81,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<main>
 		<section id="create-plan">
 			<div class="heading-container">
-				<button class="back-btn" onclick="window.location.href = './admin-page.html'">
+				<button class="back-btn" onclick="window.location.href = './admin-page.php'">
 					<img src="icon/back-button.webp" alt="back button">
 				</button>
 				<h2 class="heading">Add/Update Plan</h2>
