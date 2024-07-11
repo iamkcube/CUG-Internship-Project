@@ -111,17 +111,29 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 
                 $grand_total_amount = 0;
                 $current_unit = '';
+                $unit_total_amount = 0;
 
                 while ($row = $result->fetch_assoc()) {
                     $total_amount = $row['total_amount'];
                     $grand_total_amount += $total_amount;
 
                     if ($current_unit != $row['unit']) {
+                        if ($current_unit != '') {
+                            // Print unit total for previous unit
+                            echo '<tr class="unit-total-row">';
+                            echo '<td colspan="3" style="text-align: right;">Total for ' . $current_unit . ':</td>';
+                            echo '<td> Rs. ' . number_format($unit_total_amount, 2) . '</td>';
+                            echo '</tr>';
+                            $unit_total_amount = 0;
+                        }
+
                         $current_unit = $row['unit'];
                         echo '<tr class="unit-row">';
                         echo '<td colspan="4">' . $current_unit . '</td>';
                         echo '</tr>';
                     }
+
+                    $unit_total_amount += $total_amount;
 
                     echo '<tr>';
                     echo '<td></td>';
@@ -130,6 +142,12 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
                     echo '<td> Rs. ' . number_format($total_amount, 2) . '</td>';
                     echo '</tr>';
                 }
+
+                // Print unit total for last unit
+                echo '<tr class="unit-total-row">';
+                echo '<td colspan="3" style="text-align: right;">Total for ' . $current_unit . ':</td>';
+                echo '<td> Rs. ' . number_format($unit_total_amount, 2) . '</td>';
+                echo '</tr>';
 
                 echo '<tr class="transparent-row"><td colspan="4"><hr></td></tr>';
 
