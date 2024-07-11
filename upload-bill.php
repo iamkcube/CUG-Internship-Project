@@ -171,8 +171,17 @@ $conn->close();
                     </select>
                 </div>
                 <div class="input_box">
-                    <label for="bill_year">Bill Year</label>
-                    <input type="number" id="bill_year" name="bill_year" min="2000" max="2099" step="1" required />
+                    <label for="bill_year">Select Year:</label>
+                    <select id="bill_year" name="bill_year" required>
+                        <?php
+                        // Generate options for years, assuming a range of 5 years from current year
+                        $currentYear = date('Y');
+                        for ($i = 0; $i < 50; $i++) {
+                            $year = $currentYear - $i;
+                            echo '<option value="' . $year . '">' . $year . '</option>';
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="input_box long-input">
                     <label for="bill_file">Upload CUG Bill</label>
