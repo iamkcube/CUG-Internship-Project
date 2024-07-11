@@ -115,8 +115,8 @@ checkUser("admin");
 			<div class="service">
 				<a href="add-update-plans.php">
 					<img src="icon/add_and_update.webp" alt="Upload CUG Bill" />
-					<h3>Add/Update Plans</h3>
-					<p>Add new plans or update the existing plans.</p>
+					<h3>Add Plans</h3>
+					<p>Add new plans to the existing plans.</p>
 				</a>
 			</div>
 			<!-- <div class="service">
