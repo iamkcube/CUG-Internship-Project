@@ -172,3 +172,29 @@ footer
 {
 	text-decoration: underline;
 }
+
+.session-message
+{
+    text-align: center;
+    color: var(--white);
+    font-weight: bold;
+    margin-block: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color);
+    width: max-content;
+    margin-inline: auto;
+    border-radius: 4px;
+}
+
+.success
+{
+    color: white;
+    background-color: green;
+}
+
+.error
+{
+    color: whitesmoke;
+    background-color: red;
+    border: 1px solid red;
+}

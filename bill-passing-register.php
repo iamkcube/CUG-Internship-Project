@@ -115,7 +115,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 
                 echo '</table>';
             } else {
-                echo '<p>No data found.</p>';
+                echo '<p class="session-message error">No data found.</p>';
             }
 
             // Close database connection

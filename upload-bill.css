@@ -175,6 +175,11 @@ select
     background-position: 100% 100%;
 }
 
+.submit-button:disabled
+{
+    background-image: linear-gradient(to right, gray, gray);
+}
+
 /* Footer styles */
 footer
 {
