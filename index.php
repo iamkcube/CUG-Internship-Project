@@ -200,10 +200,18 @@
 				<input type="email" id="email" name="email" required />
 				<label for="message">Message:</label>
 				<textarea id="message" name="message" rows="4" required></textarea>
-				<button type="submit">Send</button>
+				<button class="btn" type="submit">
+					Submit
+				</button>
 			</form>
 		</div>
+		<div class="map">
+			<iframe
+				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3744.2906878678466!2d85.81673161439164!3d20.318957183946517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1909a4ecf78691%3A0xdaa17307a6072601!2sRail%20Sadan%2C%20East%20Coast%20Railway%20Headquarters!5e0!3m2!1sen!2sin!4v1623495793082!5m2!1sen!2sin"
+				width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"></iframe>
+		</div>
 	</section>
+
 
 	<footer>
 		<p>&copy; 2023 East Coast Railway CUG. All rights reserved.</p>
