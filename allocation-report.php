@@ -34,9 +34,48 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
                 <h2 class="heading">Allocation Report</h2>
             </div>
 
+            <!-- Form for selecting month and year -->
+            <form class="form_container" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <div class="input_box">
+                    <label for="month">Select Month:</label>
+                    <select id="month" name="month">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="input_box">
+                    <label for="year">Select Year:</label>
+                    <select id="year" name="year">
+                        <?php
+                        // Generate options for years, assuming a range of 50 years from current year
+                        $currentYear = date('Y');
+                        for ($i = 0; $i < 50; $i++) {
+                            $year = $currentYear - $i;
+                            echo '<option value="' . $year . '">' . $year . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <button class="action-button long-input" type="submit">Filter</button>
+            </form>
+
             <?php
             // Include database connection file
             include 'db_connect.php';
+
+            // Default month and year to current month and year
+            $selectedMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
+            $selectedYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 
             // Fetch GST percentages
             $gst_query = "SELECT cgst_percentage, sgst_percentage FROM gst LIMIT 1";
@@ -45,7 +84,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             $cgst_percentage = $gst_data['cgst_percentage'];
             $sgst_percentage = $gst_data['sgst_percentage'];
 
-            // SQL query to fetch and aggregate data
+            // SQL query to fetch and aggregate data for selected month and year
             $query = "
                 SELECT 
                     c.allocation,
@@ -55,6 +94,8 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
                     cugdetails c
                 JOIN 
                     bills b ON c.cug_number = b.cug_number
+                WHERE 
+                    b.bill_month = '$selectedMonth' AND b.bill_year = '$selectedYear'
                 GROUP BY 
                     c.allocation
                 ORDER BY 
@@ -105,7 +146,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 
                 echo '</table>';
             } else {
-                echo '<p class="session-message error">No data found.</p>';
+                echo '<p class="session-message error">No data found for selected month and year.</p>';
             }
 
             // Close database connection
@@ -113,6 +154,8 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
             ?>
 
             <form method="post" action="generate_pdf_allocation.php">
+                <input type="hidden" name="month" value="<?php echo $selectedMonth; ?>">
+                <input type="hidden" name="year" value="<?php echo $selectedYear; ?>">
                 <button class="action-button" type="submit" name="generate_pdf">Generate PDF</button>
             </form>
         </section>
@@ -125,26 +168,33 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
         </div>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function ()
-        {
+        document.addEventListener("DOMContentLoaded", function () {
             // Role based Redirection -------------------------
             const redirectButton = document.getElementById("roleRedirectButton");
             const userRole = redirectButton.getAttribute("data-role");
 
-            redirectButton.addEventListener("click", function ()
-            {
-                if (userRole === 'admin')
-                {
+            redirectButton.addEventListener("click", function () {
+                if (userRole === 'admin') {
                     window.location.href = 'admin-page.html';
-                } else if (userRole === 'dealer')
-                {
+                } else if (userRole === 'dealer') {
                     window.location.href = 'dealer-page.html';
-                } else
-                {
+                } else {
                     alert("Error: Unexpected role. Please login again.");
                 }
             });
 
+            // Set month and year based on URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const month = urlParams.get('month');
+            const year = urlParams.get('year');
+
+            if (month) {
+                document.getElementById('month').value = month;
+            }
+
+            if (year) {
+                document.getElementById('year').value = year;
+            }
         });
     </script>
 

@@ -41,7 +41,7 @@ class PDF extends FPDF
         // Title
         $this->Cell(0, 5, 'East Coast Railway', 0, 1, 'C');
         $this->Cell(0, 5, 'Bhubaneswar', 0, 1, 'C');
-        $this->Cell(0, 5, 'Consolidated CUG Bill', 0, 1, 'C');
+        $this->Cell(0, 5, 'Statement Showing Bill Passing Register', 0, 1, 'C');
         $this->Cell(0, 5, 'For the Month of: ' . $this->monthName . ' ' . $this->year, 0, 1, 'C'); // Add month and year
         $this->Ln(10); // Line break
     }
@@ -110,14 +110,14 @@ class PDF extends FPDF
                     // Add unit totals if it's not the first unit
                     $this->Ln(3); // Line break before unit totals
                     $this->SetFont('Arial', 'B', 10);
-                    $this->Cell(120, 5, 'Unit Total:', 0, 0, 'R');
+                    $this->Cell(120, 5, 'Total:', 0, 0, 'R');
                     $this->Cell(60, 5, 'Rs. ' . number_format($this->unitTotal, 2), 0, 1, 'R');
                 }
                 // New unit header
                 $this->Ln(3); // Add spacing between units
                 $this->SetFont('Arial', 'B', 10);
                 $this->Cell(180, 0, '', 'T', 1); // Line
-                $this->Cell(0, 8, 'Unit: ' . $row['unit'], 0, 1);
+                $this->Cell(0, 8, 'Division: ' . $row['unit'], 0, 1);
                 $currentUnit = $row['unit'];
                 $this->unitTotal = 0; // Reset unit total
             }
@@ -132,7 +132,7 @@ class PDF extends FPDF
         // Final unit total for the last unit
         $this->Ln(3); // Line break before unit totals
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(120, 5, 'Unit Total:', 0, 0, 'R');
+        $this->Cell(120, 5, 'Total:', 0, 0, 'R');
         $this->Cell(60, 5, 'Rs. ' . number_format($this->unitTotal, 2), 0, 1, 'R');
     }
 
