@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Add/Update Plans</title>
+	<title>Add Plans</title>
 	<link rel="icon" type="image/webp" href="logo.webp" />
 	<link rel="stylesheet" href="base.css">
 	<link rel="stylesheet" href="add-update-plans.css">
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				<button class="back-btn" onclick="window.location.href = './admin-page.php'">
 					<img src="icon/back-button.webp" alt="back button">
 				</button>
-				<h2 class="heading">Add/Update Plan</h2>
+				<h2 class="heading">Add Plan</h2>
 			</div>
 			<?php
 			// Display the message if available

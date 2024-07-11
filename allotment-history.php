@@ -12,7 +12,7 @@ checkUser("admin");
 	<title>Allotment History</title>
 	<link rel="icon" type="image/webp" href="logo.webp" />
 	<link rel="stylesheet" href="base.css">
-	<link rel="stylesheet" href="deactivate-cug.css">
+	<link rel="stylesheet" href="allotment-history.css">
 </head>
 
 <body>
@@ -39,8 +39,6 @@ checkUser("admin");
 		</form>
 	</main>
 	<?php
-	session_start(); // Start the session
-	
 	// Include database connection script
 	include 'db_connect.php';
 
@@ -122,6 +120,13 @@ checkUser("admin");
 	// Close the database connection
 	$conn->close();
 	?>
+	<footer>
+		<p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+		<div class="footer-links">
+			<a href="#">Privacy Policy</a>
+			<a href="#">Terms of Service</a>
+		</div>
+	</footer>
 </body>
 
 </html>

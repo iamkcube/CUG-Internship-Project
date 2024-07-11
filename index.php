@@ -69,6 +69,7 @@
 
 			<!-- Summary Table -->
 			<h3>Summary</h3>
+			<br>
 			<?php
 			include 'db_connect.php';
 

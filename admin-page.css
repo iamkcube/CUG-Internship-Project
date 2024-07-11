@@ -116,6 +116,7 @@
 /* Footer styles */
 footer
 {
+    margin-block-start: 5rem;
     background-color: black;
     color: white;
     padding: 20px 0;

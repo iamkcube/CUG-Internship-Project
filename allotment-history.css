@@ -204,3 +204,26 @@ tr:hover
 {
 	background-color: rgba(0, 0, 0, 0.3);
 }
+
+
+/* Footer styles */
+footer
+{
+	margin-block-start: 20rem;
+    background-color: black;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-links a
+{
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-links a:hover
+{
+    text-decoration: underline;
+}

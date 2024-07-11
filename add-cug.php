@@ -385,7 +385,11 @@ $conn->close();
         </form>
     </main>
     <footer>
-        <p>&copy; 2024 East Coast Railway</p>
+        <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
     </footer>
     <script>
         document.addEventListener("DOMContentLoaded", function ()
