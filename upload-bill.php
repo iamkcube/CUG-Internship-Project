@@ -82,7 +82,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                     $fileExtension = strtolower(end($fileNameCmps));
 
                     // Define allowed file extensions
-                    $allowedfileExtensions = array('xlsx', 'xls');
+                    $allowedfileExtensions = ['xlsx', 'xls'];
 
                     if (in_array($fileExtension, $allowedfileExtensions)) {
                         // Directory where uploaded files will be saved (relative to the project root)
@@ -147,9 +147,14 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
                                         // echo "Error inserting record: " . $stmt->error . "<br>";
                                     }
                                 } catch (Exception $e) {
-                                    // Handle any exceptions, such as duplicate key errors
-                                    echo '<div class="message error">Exception caught: ' . $e->getMessage() . '</div>';
-                                    // echo "Exception caught: " . $e->getMessage() . "<br>";
+                                    // Handle specific foreign key constraint error
+                                    if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
+                                        echo '<div class="message error">The CUG no. ' . $cug_number . ' is not present in the database.</div>';
+                                    } elseif (strlen((string) $cug_number) != 10) {
+                                        echo '<div class="message error"> CUG No. ' . $cug_number . ' has ' . strlen((string) $cug_number) . ' digits (should be 10 digits)</div>';
+                                    } else {
+                                        echo '<div class="message error">Exception caught: ' . $e->getMessage() . '</div>';
+                                    }
                                     continue; // Skip to the next iteration of the loop
                                 }
                             }
@@ -191,6 +196,30 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
             <a href="#">Terms of Service</a>
         </div>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function ()
+        {
+            const errorMessages = document.querySelectorAll(".error");
+            const moreButton = document.createElement("button");
+            moreButton.textContent = "More Errors";
+            moreButton.classList.add("more-button");
+            let firstFiveErrors = Array.from(errorMessages).slice(0, 5);
+            let remainingErrors = Array.from(errorMessages).slice(5);
+
+            remainingErrors.forEach(error => error.classList.add("hidden"));
+
+            if (errorMessages.length > 5)
+            {
+                document.querySelector("#create-dealer").appendChild(moreButton);
+            }
+
+            moreButton.addEventListener("click", function ()
+            {
+                remainingErrors.forEach(error => error.classList.remove("hidden"));
+                moreButton.remove();
+            });
+        });
+    </script>
 </body>
 
 </html>

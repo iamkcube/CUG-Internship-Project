@@ -188,8 +188,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
     </main>
 
     <footer>
-        <div class="footer_container">
-            <p>Developed by ECS.</p>
+        <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
         </div>
     </footer>
     <script>

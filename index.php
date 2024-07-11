@@ -213,9 +213,13 @@
 	</section>
 
 
-	<footer>
-		<p>&copy; 2023 East Coast Railway CUG. All rights reserved.</p>
-	</footer>
+    <footer>
+        <p>&copy; 2024 East Coast Railway. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </footer>
 </body>
 
 </html>
