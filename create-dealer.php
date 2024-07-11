@@ -1,6 +1,4 @@
 <?php
-session_start(); // Start the session
-
 // Set the default time zone
 date_default_timezone_set('Asia/Kolkata');
 

@@ -1,7 +1,4 @@
 <?php
-// Start session at the beginning
-session_start();
-
 include 'authenticate.php';
 checkUser("admin");
 

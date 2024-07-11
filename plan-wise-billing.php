@@ -1,8 +1,7 @@
 <?php
-session_start();
-$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 
 include 'authenticate.php';
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
 checkUser("dealer");
 
 ?>

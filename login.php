@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == "admin") {
+        header("Location: admin-page.php");
+        exit();
+    }
+    if ($_SESSION['role'] == "dealer") {
+        header("Location: dealer-page.php");
+        exit();
+    }
+}
+
 // Include database connection script
 include 'db_connect.php';
 

@@ -25,9 +25,9 @@ checkUser("admin");
 				<h1>Closed User Group</h1>
 			</a>
 			<!-- Add this button -->
-			<button class="logout-button" onclick="location.href='login.php'">
+			<a class="logout-button" href="logout.php">
 				Logout
-			</button>
+			</a>
 		</div>
 	</header>
 
