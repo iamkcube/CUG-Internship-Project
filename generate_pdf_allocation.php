@@ -1,5 +1,5 @@
 <?php
-require('fpdf186/fpdf.php'); // Ensure the path to fpdf.php is correct
+require 'fpdf186/fpdf.php'; // Ensure the path to fpdf.php is correct
 include 'db_connect.php';
 
 // Fetch GST percentages from database
