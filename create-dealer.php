@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssss", $username, $email, $hashed_password, $contact, $address, $created_at);
 
     if ($stmt->execute()) {
-        $_SESSION['message'] = "Dealer $username with email: '$email' & password: '$password' created successfully!";
+        $_SESSION['message'] = "Dealer $username with email: '$email' & password: '$password' created successfully. These credentials can be used for login.";
     } else {
         $_SESSION['message'] = "Error: " . $stmt->error;
     }
