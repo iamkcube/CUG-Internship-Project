@@ -10,7 +10,7 @@ CREATE TABLE cugdetails (
     bill_unit_no VARCHAR(50) NOT NULL,
     allocation VARCHAR(50) NOT NULL CHECK (allocation > 0),
     operator VARCHAR(50) NOT NULL,
-    plan ENUM('A', 'B', 'C') NOT NULL,
+    plan CHAR(1) NOT NULL,
     status CHAR(6) DEFAULT 'Active' CHECK (status = 'Active'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

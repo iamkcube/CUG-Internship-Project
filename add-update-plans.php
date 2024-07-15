@@ -17,40 +17,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$talktime = filter_input(INPUT_POST, 'talktime', FILTER_SANITIZE_STRING);
 
 	if ($plan_name && $price && $validity_days && $data_per_day && $talktime) {
-		// Check if the plan already exists
-		$query_check = "SELECT * FROM plans WHERE plan_name = ?";
-		$stmt_check = $conn->prepare($query_check);
-		$stmt_check->bind_param("s", $plan_name);
-		$stmt_check->execute();
-		$result_check = $stmt_check->get_result();
+		try {		// Check if the plan already exists
+			$query_check = "SELECT * FROM plans WHERE plan_name = ?";
+			$stmt_check = $conn->prepare($query_check);
+			$stmt_check->bind_param("s", $plan_name);
+			$stmt_check->execute();
+			$result_check = $stmt_check->get_result();
 
-		if ($result_check->num_rows > 0) {
-			// Plan exists, update the plan
-			$query_update = "UPDATE plans SET price = ?, validity_days = ?, data_per_day = ?, talktime = ? WHERE plan_name = ?";
-			$stmt_update = $conn->prepare($query_update);
-			$stmt_update->bind_param("dids", $price, $validity_days, $data_per_day, $talktime, $plan_name);
+			if ($result_check->num_rows > 0) {
+				// Plan exists, update the plan
+				$query_update = "UPDATE plans SET price = ?, validity_days = ?, data_per_day = ?, talktime = ? WHERE plan_name = ?";
+				$stmt_update = $conn->prepare($query_update);
+				try {
+					$stmt_update->bind_param("dids", $price, $validity_days, $data_per_day, $talktime, $plan_name);
 
-			if ($stmt_update->execute()) {
-				$message = "Plan updated successfully.";
+					if ($stmt_update->execute()) {
+						$message = "Plan updated successfully.";
+					} else {
+						$message = "Error: " . $stmt_update->error;
+					}
+					$stmt_update->close();
+				} catch (Exception $e) {
+					$message = "Duplicate Plan Name";
+				}
 			} else {
-				$message = "Error: " . $stmt_update->error;
-			}
-			$stmt_update->close();
-		} else {
-			// Plan does not exist, insert a new plan
-			$query_insert = "INSERT INTO plans (plan_name, price, validity_days, data_per_day, talktime) VALUES (?, ?, ?, ?, ?)";
-			$stmt_insert = $conn->prepare($query_insert);
-			$stmt_insert->bind_param("sdids", $plan_name, $price, $validity_days, $data_per_day, $talktime);
+				// Plan does not exist, insert a new plan
+				$query_insert = "INSERT INTO plans (plan_name, price, validity_days, data_per_day, talktime) VALUES (?, ?, ?, ?, ?)";
+				$stmt_insert = $conn->prepare($query_insert);
+				$stmt_insert->bind_param("sdids", $plan_name, $price, $validity_days, $data_per_day, $talktime);
 
-			if ($stmt_insert->execute()) {
-				$message = "Plan $plan_name with price: $price added successfully.";
-			} else {
-				$message = "Error: " . $stmt_insert->error;
+				if ($stmt_insert->execute()) {
+					$message = "Plan $plan_name with price: $price added successfully.";
+				} else {
+					$message = "Error: " . $stmt_insert->error;
+				}
+				$stmt_insert->close();
 			}
-			$stmt_insert->close();
+
+			$stmt_check->close();
+		} catch (Exception $e) {
+			$message = "Duplicate Plan Name";
 		}
-
-		$stmt_check->close();
 	} else {
 		$message = "All fields are required and must be valid.";
 	}

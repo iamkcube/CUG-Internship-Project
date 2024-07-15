@@ -61,6 +61,9 @@ if ($result->num_rows > 0) {
         $plans[] = $row;
     }
 }
+$plan_names = array_map(function ($plan) {
+    return $plan['plan_name'];
+}, $plans);
 
 // Add CUG Form ------------------------------------
 
@@ -113,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Allocation must be a positive numeric value.";
     if ($operator == "default")
         $errors[] = "Operator is required.";
-    if (empty($plan) || !in_array($plan, ['A', 'B', 'C']))
+    if (empty($plan) || !in_array($plan, $plan_names))
         $errors[] = "Invalid plan selected.";
 
     if (!empty($errors)) {
@@ -152,6 +155,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: add-cug.php");
     exit();
 }
+
+
 
 if (isset($_SESSION['form_data'])) {
     $name = $_SESSION['form_data']['NAME'];

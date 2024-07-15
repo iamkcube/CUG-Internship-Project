@@ -1,9 +1,8 @@
 -- Table Creation
 
-CREATE TABLE cugdetails_transaction (
-    transaction_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    cug_number BIGINT NOT NULL CHECK (CHAR_LENGTH(cug_number) = 10),
-    emp_number BIGINT NOT NULL CHECK (CHAR_LENGTH(emp_number) = 12),
+CREATE TABLE cugdetails (
+    cug_number BIGINT PRIMARY KEY CHECK (CHAR_LENGTH(cug_number) = 10),
+    emp_number BIGINT UNIQUE NOT NULL CHECK (CHAR_LENGTH(emp_number) = 12),
     empname VARCHAR(100) NOT NULL,
     designation VARCHAR(100) NOT NULL,
     unit VARCHAR(50) NOT NULL,
@@ -11,12 +10,11 @@ CREATE TABLE cugdetails_transaction (
     bill_unit_no VARCHAR(50) NOT NULL,
     allocation VARCHAR(50) NOT NULL CHECK (allocation > 0),
     operator VARCHAR(50) NOT NULL,
-    plan ENUM('A', 'B', 'C') NOT NULL,
-    status ENUM('Active', 'Inactive') NOT NULL,
-    activate_from TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    inactive_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    plan CHAR(1) NOT NULL,
+    status CHAR(6) DEFAULT 'Active' CHECK (status = 'Active'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
 -- Insert Data
 
 -- Insert Data into cugdetails_transaction
