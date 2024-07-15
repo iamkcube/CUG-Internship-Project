@@ -38,6 +38,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($address))
         $errors[] = "Address is required.";
 
+    // Check for duplicate email
+    $sql = "SELECT email FROM users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $errors[] = "Email already exists. Please use a different email.";
+    }
+    $stmt->close();
+
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
         $_SESSION['form_data'] = $_POST;
@@ -54,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['message'] = "Error: " . $stmt->error;
             }
         } catch (Exception $e) {
-            $_SESSION['error'] = "Error deactivating and deleting CUG number: " . $e->getMessage();
+            $_SESSION['error'] = "Error creating dealer: " . $e->getMessage();
         }
 
         $stmt->close();
